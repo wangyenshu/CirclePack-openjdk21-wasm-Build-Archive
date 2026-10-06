@@ -1,0 +1,1896 @@
+<?xml version="1.0"?>
+<CP_Scriptfile date="Jun 30, 2022">
+<CPscript title="Discrete Schwarz-Christoffel Challenge" level="min" screenmode="map" >
+<description>This script lets you investigate the "Schwarz-Christoffel" process in a discrete setting. You'll build a discrete conformal map of the unit disc onto a polygonal region, a la Figure 6.6. The boundary angle sums for the vertices mapping to the corners are known --- but WHICH vertices should map to the corners?  --- there's the rub!</description>
+<text> In this script you will investigate the "Schwarz-Christoffel" process in a discrete setting. You are to build a discrete conformal map of the unit disc (the maximal packing on the left) onto a given polygonal region G as shown in p1. The boundary angle sums for the vertices mapping to the corners of G are therefore known (for convenience, all our angles will be multiples of pi/4, so you can safely guess them from the image of G). </text>
+<cmd name="*" mnemonic="*" iconname="format_increaseindent.png">act 0;Cleanse;Map 0 1;infile_read start1.p;color -c s0 1;color -c 5 A;set_disp_text -w -c -cf {c:c.gt.0};disp -w -c -cf A 1;infile_path square.g;copy 1;act 1;geom_to_e;norm_scale -u 1;disp -g -cf A 1; </cmd>
+<text> So what is the problem? As with the classical SC process, you do not know, a priori, WHICH vertices are mapped to the corners. (In the classical case, you don't know the "prevertices".) This script is set up with initial choices: your task is to move them around to find the location for which the image packing comes closest to filling G. Look to Figure 6.6 of the book for an example. (You will get a shot at that in a moment.)
+
+The first section example illustrates the procedure. Polygons are provided for additional examples and the user will have to modify the setup accordingly by following this first example: in particular, the number of corners, their angles, and the normalizations will have to be reset. </text>
+<Section title="Practice Example -- a Square">
+<text> You are aiming for a discrete analytic function f: Q --> P mapping the maximal packing in p0 to a packing P in p1 whose carrier fills the square G (at least, is as close to G as possible). Two normalizations will be enforced: f(0) = 0 and f(i) = i. In otherwords, the alpha vertex (blue) will be at the origin and the gamma boundary vertex (v = 1 in this case) will be at z = i in both packings, as pictured. 
+
+The next command will get you started and permit me to explain what you control. </text>
+<cmd iconname="editdelete.png">act 1;[1];set_disp_text -w -c -cf {c:c.gt.0} -ec195t3 b -gt4;[p]; </cmd>
+<text> Clearly, this first attempt is far from the mark. The corners occur at the boundary vertices 1, 2, 3, and 4. Vertex 1 is or normalization point, so that remains fixed. The vertices chosen for the other corners need to be adjusted --- and that is where you come in. 
+
+If you position your mouse over one of the colored boundary vertices (in either p0 or p1), and you press 'f', that corner will move one circle forward (counterclockwise) on the boundary. Press 'b' and the corner will move one circle backward. In either case, CirclePack will recompute and redraw the new situation. Keep moving corners until you reach the best solution you can. Don't move corner 1 and don't let corners collide. Good luck! </text>
+<cmd inline="no" name="1" mnemonic="1" iconname="bookmark_add.png">set_aim -p1 1.0 b;set_aim -p1 .5 1 2 3 4;color -p0 -c 0 a;color -p0 -c s0 1 2 3 4;color -p1 -c 0 a;color -p1 -c s0 1 2 3 4; </cmd>
+</Section>
+<Section title="Figure 6.6 (almost)">
+<text> Now you have an opportunity to recreate Figure 6.6 (rotated by -pi/2). Figure 6.6 is, in a sense, fake. The packing was laid out with specified angles first, then the border was used as the target polygon. With persistence, you may be able to get the packing to precisely fill this polygon --- though it is still no slam dunk.
+
+I have saved the solution packing separately, and the optional command 'g' (for "I give up") will display it in p2. </text>
+<cmd iconname="metacontact_offline.png">act 0;infile_read start2.p;color -c s0 1;color -c 5 A;set_disp_text -w -c -cf {c:c.gt.0};disp -w -c -cf A 1;infile_path Figure_6_6.g;copy 1;act 1;geom_to_e;norm_scale -u 1;set_screen -d -h 3;[2];disp -w -g -cf A 1;Map 0 1; </cmd>
+<cmd iconname="idea.png">act 1;[2];set_disp_text -w -c -cf {c:c.gt.0} -ec195t3 b -gt4;[p]; </cmd>
+<cmd inline="no" name="g" mnemonic="g" tooltip="I give up" iconname="button_ok.png">infile_read -p2 Fig66answer.p;set_screen -p2 -d -h 3;color -p2 -c 0 a;color -p2 -c s0 a(1 9);Disp -p2 -w -c -cf {c:c.gt.0} -g;Map 0 2 </cmd>
+<cmd inline="no" name="2" mnemonic="2" iconname="run.png">set_aim -p1 -d;set_aim -p1 1.0 b;set_aim -p1 .75 1 9;set_aim -p1 .5 2 3 5 6 8;set_aim -p1 1.5 4 7;color -p0 -c 0 a;color -p0 -c s0 a(1 9);color -p1 -c 0 a;color -p1 -c s0 a(1 9); </cmd>
+</Section>
+<Section title="A Challenge">
+<text> Unlike the previous example, this next one is not a set up, and you will not be able to get the packing to precisely fill the polygon. Your goal is to get as close as possible. Good luck. </text>
+<cmd iconname="centrejust.png">act 0;infile_read start3.p;color -c s0 1;color -c 5 A;set_disp_text -w -c -cf {c:c.gt.0};disp -w -c -cf A 1;infile_path notch.g;copy 1;act 1;geom_to_e;norm_scale -u 1;set_screen -d -h 3;[3];disp -w -g -cf A 1;Map 0 1; </cmd>
+<cmd iconname="psi.png">act 1;[3];set_disp_text -w -c -cf {c:c.gt.0} -ec195t3 b -gt4;[p]; </cmd>
+<cmd inline="no" name="3" mnemonic="3" iconname="dnd_multi.png">set_aim -p1 -d;set_aim -p1 1.0 b;set_aim -p1 .75 1 2;set_aim -p1 .5 3 4 5 7;set_aim -p1 1.5 6;color -p0 -c 0 a;color -p0 -c s0 a(1 7);color -p1 -c 0 a;color -p1 -c s0 a(1 7); </cmd>
+<text> I encourage you to set up your own experiments. There are a few technicalities, so you will need to following the earlier examples. The path has to enclose the origin and have a corner at z = i. Also, each situation requires a tailored command for angles and colors. For example, look at command '2' above. First, default aims are set simply to clear out any outdated settings. Then the angles at the corners of the target region are set as 'aim's for successive counterclockwise boundary vertices, 1 to 9 in this instance, Note that vertex 1 should be the corner at z = i.  Finally, a spread of colors is assigned to the corner vertices. 
+
+The packing 'startDozen.p' has vertices 1 - 12 sprinkled in order around the boundary, so you can set up an experiment with a polynomial having up to twelve corners if you really want to challenge your friends. </text>
+</Section>
+<Section title="Tools">
+<cmd inline="no" name="f" mnemonic="f" tooltip="move corner one circle forward (counterclockwise)" iconname="list.png">set_Vlist z #XY;swap -p0 -ca Vlist[0] n+ Vlist[0];swap -p1 -ca Vlist[0] n+ Vlist[0];[p]; </cmd>
+<cmd inline="no" name="b" mnemonic="b" tooltip="move corner one circle backward (clockwise)" iconname="delete.png">set_Vlist z #XY;swap -p0 -ca Vlist[0] n- Vlist[0];swap -p1 -ca Vlist[0] n- Vlist[0];[p]; </cmd>
+<cmd inline="no" name="p" mnemonic="p" tooltip="repacking and layout tool" iconname="debugger.png">repack -p1;layout -p1;norm_scale -p1 -u 1;disp -p1 -wr;disp -p0 -wr; </cmd>
+</Section>
+  </CPscript>
+<CPdata>
+    <AboutImage name="AboutImage.jpg">
+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CLzdvEmuj/tun/wARU+m+HU0/U21B9Rv724MPkA3UisFXIbjCjuKvadqdtqdt5tuxyp2SRuNrxMOquvUEelXcV2OvOStf8j5SU5xvGQdqzrUed8QtOCH/AI9tPuXk9g7xKo/Ha3/fNS6hqVtpdsZ7mQgEhURRueRj0VVHLMfQVe8K6Tc2q3Wp6igTUL9lLxZB8iNc7I89yMkn3Y9sVyV5JRsehldCUqvtOiOjooorjPowooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACuT1zwzci+k1fQ2jS7kwbm1kO2O6wMA5/gcDjd36HsR1lFTKCmuWWw4ycXdHm48QWcMot9SEml3WceTer5eT/st91v+Ak1e+22u3d9ph2+vmDFdtNbw3MTRTxRyxtwUdQwP4Gsn/hEPDfm+b/YGl+ZnO77HHn+VcMsvi37rOpYt9UcifEFpNKbfTFk1S66eVZL5mD/ALTfdX/gRFbeieGbl76PVtdMbXUeTbWkZ3R22eM5/jfH8XAHQDqT1MMENvEsUESRRrwFRQoH4CpK3o4WFJ33ZnUrynp0CiiiukwCiiigAooooAKKKKACjAoooAw9V8K6bqtz9rIltb7GPtdpIY5COwYjhh7MCKzv+EQ1LdtHivUPK6f8e9vv/wC+tmP0rraKpSktmZToU5u8opmFpXhTTtLuRefvru+Ax9qu5DJIAeoXso9lArdxRRU3NElFWQUUUUDCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/9k=
+    </AboutImage>
+    <path name="notch.g">
+PATH:
+0.0 1.0
+-1.0 0.0
+-1.0 -1.0
+1.0 -1.0
+1.0 0.5
+0.5 0.5
+0.5 1.0
+0.0 1.0
+END
+
+    </path>
+    <circlepacking name="start1.p">
+NODECOUNT:  198
+GEOMETRY: hyperbolic
+ALPHA/BETA/GAMMA:  33 0 1
+PACKNAME: start.p
+FLOWERS:
+
+1 2   154 92 93
+2 5   186 66 166 89 147 184
+3 3   155 117 36 188
+4 3   30 164 114 191
+5 3   193 141 23 113
+6 4   99 71 171 63 196
+7 3   197 97 119 20
+8 8   185 29 125 27 20 51 149 168 185
+9 5   102 99 132 145 100 102
+10 6   31 68 158 181 173 62 31
+11 6   97 198 78 112 94 119 97
+12 3   143 60 148 154
+13 6   18 157 177 92 148 74 18
+14 8   94 112 108 69 55 25 42 161 94
+15 3   130 124 180 58
+16 5   76 85 165 22 65 76
+17 6   26 80 178 24 31 62 26
+18 5   54 70 157 13 74 54
+19 8   67 137 138 122 88 70 50 80 67
+20 6   7 119 94 51 8 27 100
+21 6   86 159 107 122 138 137 86
+22 6   16 165 59 34 95 65 16
+23 4   5 141 192 113 5
+24 5   17 178 166 66 31 17
+25 3   14 55 42 14
+26 10   131 133 67 80 17 62 64 38 56 163 131
+27 5   8 125 160 100 20 8
+28 4   81 181 146 162 81
+29 7   185 105 174 40 44 125 8 185
+30 5   58 39 91 134 164 4
+31 7   17 24 66 150 68 10 62 17
+32 5   117 151 84 129 79 117
+33 7   131 61 76 159 86 137 127 131
+34 7   22 59 176 141 109 135 95 22
+35 7   111 170 189 179 126 164 167 111
+36 6   162 188 3 117 79 123 162
+37 7   40 174 48 87 169 71 116 40
+38 5   26 64 172 104 56 26
+39 6   91 30 58 180 120 47 91
+40 5   29 174 37 116 44 29
+41 4   54 96 178 80 54
+42 7   14 25 55 142 106 149 161 14
+43 3   182 74 60 143
+44 6   29 40 116 71 160 125 29
+45 6   76 65 105 185 107 159 76
+46 4   68 150 186 187 68
+47 6   91 39 120 192 98 175 91
+48 5   37 174 136 95 87 37
+49 6   85 115 83 75 77 91 85
+50 4   19 70 54 80 19
+51 5   8 20 94 161 149 8
+52 4   106 142 177 157 106
+53 2   144 142 55
+54 7   50 70 18 74 96 41 80 50
+55 5   53 142 42 25 14 69
+56 4   26 38 104 163 26
+57 4   96 183 147 89 96
+58 3   15 180 39 30
+59 4   22 165 176 34 22
+60 5   74 148 12 143 43 74
+61 6   33 131 163 115 85 76 33
+62 6   26 17 31 10 173 64 26
+63 6   101 121 195 196 6 171 101
+64 5   26 62 173 172 38 26
+65 8   76 16 22 95 136 174 105 45 76
+66 6   24 166 2 186 150 31 24
+67 6   26 133 127 137 19 80 26
+68 6   31 150 46 187 158 10 31
+69 2   55 14 108
+70 7   19 88 106 157 18 54 50 19
+71 9   37 169 171 6 99 102 160 44 116 37
+72 2   195 121 110
+73 5   75 167 164 134 77 75
+74 9   54 18 13 148 60 43 182 183 96 54
+75 7   49 83 139 82 167 73 77 49
+76 7   33 61 85 16 65 45 159 33
+77 5   49 75 73 134 91 49
+78 2   112 11 198
+79 7   36 117 32 129 111 167 123 36
+80 8   26 67 19 50 54 41 178 17 26
+81 7   123 90 172 173 181 28 162 123
+82 4   75 139 156 167 75
+83 6   49 115 163 104 139 75 49
+84 3   129 32 151 155
+85 7   61 115 49 91 165 16 76 61
+86 4   33 159 21 137 33
+87 5   37 48 95 128 169 37
+88 6   19 122 168 103 106 70 19
+89 5   57 147 2 166 96 57
+90 5   123 167 156 172 81 123
+91 10   85 49 77 134 30 39 47 175 176 165 85
+92 7   13 177 144 93 1 154 148 13
+93 2   1 92 144
+94 7   51 20 119 11 112 14 161 51
+95 8   22 34 135 128 87 48 136 65 22
+96 8   54 74 183 57 89 166 178 41 54
+97 5   119 7 197 198 11 119
+98 5   47 192 141 176 175 47
+99 4   132 9 102 71 6
+100 6   20 27 160 102 9 145 132
+101 6   128 135 121 63 171 169 128
+102 5   71 99 9 100 160 71
+103 4   88 168 149 106 88
+104 6   38 172 139 83 163 56 38
+105 5   45 65 174 29 185 45
+106 8   70 88 103 149 42 142 52 157 70
+107 5   45 185 122 21 159 45
+108 2   69 14 112
+109 4   34 141 153 135 34
+110 3   72 121 140 194
+111 5   79 129 170 35 167 79
+112 4   108 14 94 11 78
+113 2   5 23 192
+114 5   126 179 191 4 164 126
+115 5   61 163 83 49 85 61
+116 4   40 37 71 44 40
+117 6   36 3 155 151 32 79 36
+118 2   189 170 129
+119 5   94 20 7 97 11 94
+120 7   39 180 124 130 152 192 47 39
+121 7   101 135 140 110 72 195 63 101
+122 7   19 138 21 107 185 168 88 19
+123 6   36 79 167 90 81 162 36
+124 4   180 15 130 120 180
+125 5   8 29 44 160 27 8
+126 4   35 179 114 164 35
+127 5   131 33 137 67 133 131
+128 5   87 95 135 101 169 87
+129 5   118 170 111 79 32 84
+130 3   152 120 124 15
+131 6   61 33 127 133 26 163 61
+132 3   100 145 9 99
+133 4   131 127 67 26 131
+134 5   73 164 30 91 77 73
+135 8   34 109 153 140 121 101 128 95 34
+136 4   48 174 65 95 48
+137 7   33 86 21 138 19 67 127 33
+138 4   19 137 21 122 19
+139 6   75 83 104 172 156 82 75
+140 7   121 135 153 141 193 194 110 121
+141 10   34 176 98 192 23 5 193 140 153 109 34
+142 7   42 55 53 144 177 52 106 42
+143 2   43 60 12
+144 4   93 92 177 142 53
+145 3   9 132 100 9
+146 5   158 188 162 28 181 158
+147 5   57 183 184 2 89 57
+148 6   13 92 154 12 60 74 13
+149 7   8 51 161 42 106 103 168 8
+150 5   31 66 186 46 68 31
+151 4   117 155 84 32 117
+152 2   192 120 130
+153 4   109 141 140 135 109
+154 3   12 148 92 1
+155 3   84 151 117 3
+156 5   139 172 90 167 82 139
+157 6   18 70 106 52 177 13 18
+158 6   10 68 187 188 146 181 10
+159 6   33 76 45 107 21 86 33
+160 6   27 125 44 71 102 100 27
+161 5   51 94 14 42 149 51
+162 6   146 188 36 123 81 28 146
+163 7   131 26 56 104 83 115 61 131
+164 8   73 167 35 126 114 4 30 134 73
+165 6   16 85 91 176 59 22 16
+166 6   24 178 96 89 2 66 24
+167 10   79 111 35 164 73 75 82 156 90 123 79
+168 6   185 8 149 103 88 122 185
+169 6   37 87 128 101 171 71 37
+170 5   111 129 118 189 35 111
+171 5   71 169 101 63 6 71
+172 8   38 64 173 81 90 156 139 104 38
+173 6   10 181 81 172 64 62 10
+174 7   29 105 65 136 48 37 40 29
+175 4   91 47 98 176 91
+176 7   34 59 165 91 175 98 141 34
+177 6   13 157 52 142 144 92 13
+178 6   17 80 41 96 166 24 17
+179 6   35 189 190 191 114 126 35
+180 5   39 58 15 124 120 39
+181 6   10 158 146 28 81 173 10
+182 2   183 74 43
+183 5   184 147 57 96 74 182
+184 2   2 147 183
+185 7   45 105 29 8 168 122 107 45
+186 4   187 46 150 66 2
+187 4   188 158 68 46 186
+188 5   3 36 162 146 158 187
+189 4   190 179 35 170 118
+190 2   191 179 189
+191 3   4 114 179 190
+192 6   113 23 141 98 47 120 152
+193 3   194 140 141 5
+194 2   110 140 193
+195 3   196 63 121 72
+196 2   6 63 195
+197 2   198 97 7
+198 3   78 11 97 197
+
+RADII:
+5.000000000e+00   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00   5.000000000e+00   4.037316151e-01
+2.557145583e-01   2.067032670e-01   5.157088567e-01   5.000000000e+00
+3.384995687e-01   6.435294144e-01   5.000000000e+00   1.363385728e-01
+2.139690218e-01   2.121576761e-01   2.282883546e-01   5.000000000e+00
+8.484064473e-02   1.695305180e-01   3.097471831e-01   1.693134928e-01
+8.415165226e-02   2.710110353e-01   2.780839581e-01   7.405606849e-02
+2.238130755e-01   5.000000000e+00   2.673405508e-01   3.064055068e-01
+1.322642150e-01   2.541075586e-01   4.452625173e-01   3.942641398e-01
+1.766783014e-01   8.614691733e-02   4.533272635e-01   1.038001035e-01
+1.107262718e-01   3.843020752e-01   5.000000000e+00   1.732530940e-01
+1.471442718e-01   1.658925350e-01   3.351964295e-01   9.215502500e-02
+1.847907895e-01   1.044356310e-01   2.672459515e-01   1.327406940e-01
+5.000000000e+00   2.848741719e-01   5.000000000e+00   5.603404888e-02
+1.439879754e-01   5.000000000e+00   8.675174728e-02   4.449459258e-01
+1.476619792e-01   1.903018345e-01   4.773901500e-01   1.149172185e-01
+2.297267640e-01   3.233421795e-01   1.345329926e-01   2.538557316e-01
+5.000000000e+00   2.650205902e-01   4.913542010e-01   5.000000000e+00
+1.790465668e-01   7.314233441e-01   1.980190032e-01   1.949590509e-01
+1.556084106e-01   5.000000000e+00   4.411718186e-01   2.744968257e-01
+2.073244336e-01   6.929984802e-02   1.417120285e-01   5.000000000e+00
+2.298441320e-01   4.410660718e-02   1.095627659e-01   1.925633978e-01
+2.092456054e-01   1.424063576e-01   5.156976112e-01   6.508219179e-01
+5.000000000e+00   5.200162719e-01   2.434245810e-01   4.016878940e-01
+4.075431686e-01   2.293893001e-01   5.000000000e+00   5.000000000e+00
+2.727232192e-01   2.951517714e-01   9.955674993e-02   1.146692533e-01
+1.318817138e-01   3.480780203e-01   9.402378996e-02   5.000000000e+00
+1.009964331e-01   5.000000000e+00   3.049240073e-01   5.000000000e+00
+5.000000000e+00   3.045052716e-01   1.156344290e-01   7.487133334e-02
+3.978731552e-01   5.000000000e+00   3.696008080e-01   5.516404346e-01
+6.014993374e-01   1.736037017e-01   2.598518825e-01   2.296481047e-01
+1.729081154e-01   1.564474401e-01   7.111523273e-02   1.458624964e-01
+5.000000000e+00   5.000000000e+00   1.157006563e-01   5.000000000e+00
+5.138296023e-02   2.293653616e-01   3.483189411e-01   6.746391416e-02
+1.169034564e-01   5.595974736e-02   1.247134221e-01   5.725177225e-01
+6.663569332e-01   5.239336069e-01   5.000000000e+00   5.000000000e+00
+8.136342840e-02   1.490734556e-01   2.931039999e-01   4.960314968e-01
+3.054137207e-01   2.004000040e-01   2.104464710e-01   5.000000000e+00
+1.158462121e-01   5.000000000e+00   5.000000000e+00   1.030155007e-01
+2.381463995e-01   2.919171395e-01   1.029369423e-01   2.870861690e-01
+2.480783146e-01   2.254155326e-01   1.565705689e-01   5.114385171e-01
+1.875445219e-01   2.761373647e-01   4.621870673e-01   1.995842867e-01
+2.012100721e-01   3.862480691e-01   2.567173815e-01   2.024082286e-01
+1.707493278e-01   1.675217981e-01   1.236398112e-01   2.740051290e-01
+3.393892227e-01   2.065241609e-01   4.410548424e-01   3.274735768e-01
+1.622906728e-01   5.000000000e+00   5.000000000e+00   5.000000000e+00
+2.225304714e-01   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00
+
+CENTERS:
+-0.0000000000e+00 9.9961887696e-01  -7.9686333711e-01 6.0108222600e-01
+-9.4732239118e-01 -3.1755314197e-01  -5.1028918195e-01 -8.5876644470e-01
+5.1212086908e-01 -8.5802588713e-01  9.6192768948e-01 -2.6815551705e-01
+7.9503738958e-01 6.0582965065e-01  5.1584725130e-01 2.7853499912e-01
+8.9396740754e-01 3.5089997600e-02  -6.1704088092e-01 5.5980191224e-02
+6.9867066111e-01 6.3849816795e-01  -1.5609488771e-01 9.8719384650e-01
+-4.4598721512e-02 7.6427883264e-01  5.3436056279e-01 7.0664267319e-01
+2.7874051993e-02 -9.9914572033e-01  1.7122882323e-01 -2.6279171149e-01
+-4.2028957505e-01 2.2405229951e-01  -8.3028189043e-02 6.3143047769e-01
+-1.2254570824e-02 2.8843809400e-01  8.7569886240e-01 4.7798251282e-01
+9.5783919576e-02 1.1732705358e-01  2.8205746776e-01 -3.3295602912e-01
+4.0539202846e-01 -8.1013238078e-01  -5.1650833652e-01 3.1841186685e-01
+4.4048826485e-01 7.1305359094e-01  -2.8936621279e-01 6.5499151123e-02
+6.9492329443e-01 2.0340403783e-01  -6.6780373417e-01 -1.1395542457e-01
+4.8510586731e-01 5.5139457806e-02  -2.8874265129e-01 -9.5480095103e-01
+-5.8629339554e-01 2.0015328339e-01  -8.0427852891e-01 -4.2854362615e-01
+-0.0000000000e+00 -0.0000000000e+00  3.7286706920e-01 -4.5844957075e-01
+-5.9944131542e-01 -5.9688062237e-01  -7.7893387694e-01 -2.7558731918e-01
+5.6771534850e-01 -1.4225640761e-01  -3.6067011028e-01 -7.7019586178e-02
+-1.2195559734e-02 -8.1899425496e-01  5.4409563223e-01 -4.9669873050e-02
+-3.1033455400e-01 4.3499458975e-01  3.8027075234e-01 6.5404092616e-01
+-2.9151718933e-01 9.5584663317e-01  6.1469476669e-01 9.0103867559e-03
+2.3025680551e-01 -7.0908227774e-03  -7.6854596785e-01 2.0488293482e-01
+1.2271031947e-01 -7.5388175122e-01  4.8571946162e-01 -1.8687197495e-01
+-1.6597298549e-01 -3.5524626428e-01  -1.0763706056e-01 3.9862612525e-01
+5.4682515922e-01 4.6822585701e-01  1.3904989289e-01 6.9253580312e-01
+3.1238403261e-01 9.4909386677e-01  -1.9694810186e-01 5.1736457479e-01
+4.5443928814e-01 8.8929718653e-01  -2.9810785888e-01 -8.3396772985e-02
+-5.1067917330e-01 6.1448253846e-01  -6.8848892175e-02 -9.9671129626e-01
+2.5675784145e-01 -4.2978663083e-01  -1.9760547256e-01 8.9913574175e-01
+-5.8589106494e-02 -1.2611090235e-01  -4.8255901444e-01 8.0948967671e-02
+7.8723034911e-01 -3.6797587905e-01  -4.2886482763e-01 -2.7088779171e-02
+3.0256633910e-01 -1.6444393187e-01  -6.4746665673e-01 3.4750073571e-01
+-1.2129969745e-01 1.5648018604e-01  -7.1334485878e-01 1.3623412988e-01
+5.5964554899e-01 8.2811602890e-01  3.2732777992e-03 4.9511605436e-01
+7.4577550859e-01 -1.0768316536e-01  8.2437920506e-01 -5.6510505790e-01
+-3.4827253155e-01 -4.9463644518e-01  -2.5582895835e-01 7.6918426601e-01
+-3.2043138414e-01 -3.6564240955e-01  1.0950583549e-01 -1.1961050886e-01
+-2.3740407289e-01 -4.6848051628e-01  7.2454941375e-01 6.8886058353e-01
+-7.1964760775e-01 -3.9967040258e-01  -2.3632324773e-01 3.0310898345e-01
+-5.9568055035e-01 -1.5270996978e-01  -4.0455467157e-01 -3.1013782929e-01
+-2.5250830830e-01 -2.4359901309e-01  -8.8235194529e-01 -4.6961157447e-01
+6.9491181289e-03 -2.9348313875e-01  5.4585088262e-02 6.8970965799e-02
+5.3898859482e-01 -2.3206062941e-01  1.4729305950e-01 3.8235371812e-01
+-5.4294014615e-01 5.5548949358e-01  -5.3235959559e-01 -2.4543830549e-01
+-3.3166698248e-02 -5.8598634273e-01  1.1588168633e-02 8.9844168386e-01
+6.1677110127e-02 9.9764144636e-01  6.2312575218e-01 5.9019069215e-01
+4.3707987922e-01 -2.9888131524e-01  -4.0218127970e-01 5.6353526779e-01
+7.3617754367e-01 6.1933223234e-01  2.3256526703e-01 -6.9168348461e-01
+9.9575528389e-01 -7.7672687060e-02  9.7882526748e-01 1.9597254352e-01
+6.6282567852e-01 -3.4886011637e-01  8.2560124733e-01 1.8824922352e-02
+2.5509707542e-01 4.2544895670e-01  -3.2215631005e-01 -1.5536802073e-01
+3.5722669217e-01 -1.4718766715e-02  2.0376742395e-01 5.7238803366e-01
+1.7988806971e-01 9.6457583284e-02  6.1630918624e-01 7.8694990514e-01
+4.5858652405e-01 -5.1739530248e-01  7.6709618111e-01 -6.4033168702e-01
+-6.6519300358e-01 -5.0558881123e-01  6.7944346107e-01 7.3274541850e-01
+4.3120184911e-01 -9.0169686396e-01  -5.3542813736e-01 -7.1432776462e-01
+-1.3752072518e-01 -2.2449541075e-01  6.0091475414e-01 -6.7894633621e-02
+-8.2148436137e-01 -3.6618672841e-01  -7.7159760426e-01 -6.3539776294e-01
+7.1409842146e-01 5.8355252803e-01  1.0558605887e-01 -8.8617504649e-01
+7.1600084215e-01 -4.8821422188e-01  1.6155963937e-01 2.2147547456e-01
+-6.4531266857e-01 -2.7550040094e-01  5.8644737214e-02 -9.3118804132e-01
+6.0746840473e-01 1.1656702529e-01  -5.4775954077e-01 -6.6218961408e-01
+-7.6327447746e-02 6.6663693680e-02  5.6412530711e-01 -3.0744116341e-01
+-8.3047458636e-01 -5.5527653449e-01  9.6236588006e-02 -9.9489858367e-01
+-1.2263878348e-01 -1.3236668514e-02  9.9829095715e-01 4.7424504357e-02
+-1.3657987620e-01 6.7600828510e-02  -2.6814652216e-01 -5.9015654828e-01
+5.4738000071e-01 -4.4230281683e-01  4.2543081131e-01 -1.8209353152e-01
+-3.1049654670e-03 1.2390435358e-01  6.2401823393e-02 1.7703652525e-01
+-3.6480673049e-01 -2.4647704150e-01  6.0814538336e-01 -6.0533008956e-01
+4.2131208255e-01 -6.8279869764e-01  2.4901247664e-01 7.7498322703e-01
+-2.2036027915e-01 9.7505067599e-01  1.7002347906e-01 9.8422897134e-01
+9.1174409700e-01 6.0168426104e-02  -7.1816357870e-01 -8.7756340365e-02
+-5.7736080520e-01 6.3086157761e-01  -1.1117376006e-01 8.7572481166e-01
+3.8732339435e-01 4.7202286386e-01  -7.0324773049e-01 2.4107770798e-01
+-8.3860609948e-01 -4.1127223251e-01  1.6861270745e-01 -9.8514542788e-01
+5.0348148186e-01 -5.4486016770e-01  -7.1433915336e-02 9.9683463993e-01
+-9.1290731828e-01 -4.0699119595e-01  -4.4993138524e-01 -2.6604756963e-01
+4.6599685218e-02 6.5581720245e-01  -7.4212280156e-01 1.2247350611e-02
+1.1394565824e-01 2.6828427556e-02  7.2398482025e-01 7.1037052261e-02
+4.9184685779e-01 5.7320875544e-01  -7.1050062280e-01 -1.7600737147e-01
+-2.0519219251e-01 -1.1584868347e-01  -4.4048650987e-01 -6.4386859170e-01
+1.5309408753e-01 -4.0109315850e-01  -5.3604393023e-01 4.4497319746e-01
+-5.2692609213e-01 -4.2794696659e-01  2.9497715742e-01 3.1481777532e-01
+6.3213905874e-01 -2.3599764290e-01  -6.9472681866e-01 -5.8195032173e-01
+7.3473393032e-01 -2.6450891727e-01  -4.5273332779e-01 -1.5123603504e-01
+-5.3703912991e-01 -4.0791943517e-02  4.5322639258e-01 -9.3826146760e-02
+1.5387318608e-01 -6.4672874684e-01  2.2774984022e-01 -5.5229767773e-01
+9.0461035612e-02 7.8400758991e-01  -4.0687735350e-01 3.7831624238e-01
+-6.0058556937e-01 -6.9387096047e-01  2.2954972394e-02 -9.0827658022e-01
+-6.4404943756e-01 -5.1845951175e-02  -3.9395360001e-01 9.1827449278e-01
+-5.4314196549e-01 8.3766084568e-01  -6.7748024312e-01 7.3447352383e-01
+3.2007606054e-01 1.3674992436e-01  -9.2574587318e-01 3.7369698320e-01
+-9.8963193706e-01 1.3120397627e-01  -9.8918703603e-01 -1.3336256634e-01
+-7.1467203950e-01 -6.9842626479e-01  -6.5891642189e-01 -7.5171888173e-01
+-6.0594975420e-01 -7.9479121393e-01  3.0405608969e-01 -9.5089441633e-01
+6.1629102458e-01 -7.8630717793e-01  6.9976250535e-01 -7.1355761220e-01
+8.7289139035e-01 -4.8640468608e-01  9.1699864452e-01 -3.9735930477e-01
+7.6927547014e-01 6.3863804903e-01  7.4918473237e-01 6.6199616034e-01
+
+
+END
+    </circlepacking>
+    <path name="Figure_6_6.g">
+PATH:
+0.0000000000e+00 1.0000000000e+00
+-1.2594133221e+00 1.0095543014e+00
+-1.2692000092e+00 -2.8049188459e-01
+-7.3441571685e-01 -2.8454892095e-01
+-7.4039636231e-01 -1.0728968596e+00
+3.8145535725e-01 -1.0814075659e+00
+3.8659583147e-01 -4.0380828904e-01
+7.3126436125e-01 -4.0642305232e-01
+7.3626301104e-01 2.5248054716e-01
+0.0000000000e+00 1.0000000000e+00
+END
+
+    </path>
+    <circlepacking name="start2.p">
+NODECOUNT:  198
+GEOMETRY: hyperbolic
+ALPHA/BETA/GAMMA:  127 0 1
+PACKNAME: polypack.p
+FLOWERS:
+
+1 4   188 158 68 46 186
+2 3   72 164 114 191
+3 2   139 120 130
+4 2   195 121 110
+5 6   144 27 160 102 55 145 132
+6 4   108 14 94 11 78
+7 4   93 92 177 142 53
+8 3   12 148 92 143
+9 5   184 147 57 96 74 182
+10 6   31 68 158 181 173 62 31
+11 6   97 198 78 6 94 119 97
+12 3   183 60 148 8
+13 6   18 157 177 92 148 74 18
+14 8   94 6 108 69 154 25 42 161 94
+15 3   130 124 180 152
+16 2   117 63 195
+17 6   26 80 178 24 31 62 26
+18 5   54 70 157 13 74 54
+19 3   197 97 119 144
+20 8   187 29 125 27 144 51 149 168 187
+21 6   86 159 107 122 138 137 86
+22 6   112 165 59 34 95 65 112
+23 4   100 141 139 113 100
+24 5   17 178 166 66 31 17
+25 3   14 154 42 14
+26 10   131 133 67 80 17 62 64 38 56 163 131
+27 5   20 125 160 5 144 20
+28 4   81 181 146 162 81
+29 7   187 105 174 40 44 125 20 187
+30 6   36 128 189 151 32 79 36
+31 7   17 24 66 150 68 10 62 17
+32 5   30 151 84 129 79 30
+33 7   131 61 76 159 86 137 127 131
+34 7   22 59 176 141 109 135 95 22
+35 7   111 170 192 179 126 164 167 111
+36 6   162 188 128 30 79 123 162
+37 7   40 174 48 87 169 71 116 40
+38 5   26 64 172 104 56 26
+39 6   91 72 152 180 120 47 91
+40 5   29 174 37 116 44 29
+41 4   54 96 178 80 54
+42 7   14 25 154 142 106 149 161 14
+43 3   182 74 60 183
+44 6   29 40 116 71 160 125 29
+45 6   76 65 105 187 107 159 76
+46 4   68 150 186 1 68
+47 6   91 39 120 139 98 175 91
+48 5   37 174 136 95 87 37
+49 6   85 115 83 75 77 91 85
+50 4   196 70 54 80 196
+51 5   20 144 94 161 149 20
+52 4   106 142 177 157 106
+53 2   7 142 154
+54 7   50 70 18 74 96 41 80 50
+55 5   102 99 132 145 5 102
+56 4   26 38 104 163 26
+57 4   96 9 147 89 96
+58 2   191 179 192
+59 4   22 165 176 34 22
+60 5   74 148 12 183 43 74
+61 6   33 131 163 115 85 76 33
+62 6   26 17 31 10 173 64 26
+63 6   101 121 195 16 117 171 101
+64 5   26 62 173 172 38 26
+65 8   76 112 22 95 136 174 105 45 76
+66 6   24 166 185 186 150 31 24
+67 6   26 133 127 137 196 80 26
+68 6   31 150 46 1 158 10 31
+69 2   154 14 108
+70 7   196 88 106 157 18 54 50 196
+71 9   37 169 171 117 99 102 160 44 116 37
+72 5   152 39 91 134 164 2
+73 5   75 167 164 134 77 75
+74 9   54 18 13 148 60 43 182 9 96 54
+75 7   49 83 190 82 167 73 77 49
+76 7   33 61 85 112 65 45 159 33
+77 5   49 75 73 134 91 49
+78 2   6 11 198
+79 7   36 30 32 129 111 167 123 36
+80 8   26 67 196 50 54 41 178 17 26
+81 7   123 90 172 173 181 28 162 123
+82 4   75 190 156 167 75
+83 6   49 115 163 104 190 75 49
+84 3   129 32 151 189
+85 7   61 115 49 91 165 112 76 61
+86 4   33 159 21 137 33
+87 5   37 48 95 155 169 37
+88 6   196 122 168 103 106 70 196
+89 5   57 147 185 166 96 57
+90 5   123 167 156 172 81 123
+91 10   85 49 77 134 72 39 47 175 176 165 85
+92 7   13 177 7 93 143 8 148 13
+93 2   143 92 7
+94 7   51 144 119 11 6 14 161 51
+95 8   22 34 135 155 87 48 136 65 22
+96 8   54 74 9 57 89 166 178 41 54
+97 5   119 19 197 198 11 119
+98 5   47 139 141 176 175 47
+99 4   132 55 102 71 117
+100 3   193 141 23 113
+101 6   155 135 121 63 171 169 155
+102 5   71 99 55 5 160 71
+103 4   88 168 149 106 88
+104 6   38 172 190 83 163 56 38
+105 5   45 65 174 29 187 45
+106 8   70 88 103 149 42 142 52 157 70
+107 5   45 187 122 21 159 45
+108 2   69 14 6
+109 4   34 141 153 135 34
+110 3   4 121 140 194
+111 5   79 129 170 35 167 79
+112 5   76 85 165 22 65 76
+113 2   100 23 139
+114 5   126 179 191 2 164 126
+115 5   61 163 83 49 85 61
+116 4   40 37 71 44 40
+117 4   99 71 171 63 16
+118 2   192 170 129
+119 5   94 144 19 97 11 94
+120 7   39 180 124 130 3 139 47 39
+121 7   101 135 140 110 4 195 63 101
+122 7   196 138 21 107 187 168 88 196
+123 6   36 79 167 90 81 162 36
+124 4   180 15 130 120 180
+125 5   20 29 44 160 27 20
+126 4   35 179 114 164 35
+127 5   131 33 137 67 133 131
+128 3   189 30 36 188
+129 5   118 170 111 79 32 84
+130 3   3 120 124 15
+131 6   61 33 127 133 26 163 61
+132 3   5 145 55 99
+133 4   131 127 67 26 131
+134 5   73 164 72 91 77 73
+135 8   34 109 153 140 121 101 155 95 34
+136 4   48 174 65 95 48
+137 7   33 86 21 138 196 67 127 33
+138 4   196 137 21 122 196
+139 6   113 23 141 98 47 120 3
+140 7   121 135 153 141 193 194 110 121
+141 10   34 176 98 139 23 100 193 140 153 109 34
+142 7   42 154 53 7 177 52 106 42
+143 2   8 92 93
+144 6   19 119 94 51 20 27 5
+145 3   55 132 5 55
+146 5   158 188 162 28 181 158
+147 5   57 9 184 185 89 57
+148 6   13 92 8 12 60 74 13
+149 7   20 51 161 42 106 103 168 20
+150 5   31 66 186 46 68 31
+151 4   30 189 84 32 30
+152 3   15 180 39 72
+153 4   109 141 140 135 109
+154 5   53 142 42 25 14 69
+155 5   87 95 135 101 169 87
+156 5   190 172 90 167 82 190
+157 6   18 70 106 52 177 13 18
+158 6   10 68 1 188 146 181 10
+159 6   33 76 45 107 21 86 33
+160 6   27 125 44 71 102 5 27
+161 5   51 94 14 42 149 51
+162 6   146 188 36 123 81 28 146
+163 7   131 26 56 104 83 115 61 131
+164 8   73 167 35 126 114 2 72 134 73
+165 6   112 85 91 176 59 22 112
+166 6   24 178 96 89 185 66 24
+167 10   79 111 35 164 73 75 82 156 90 123 79
+168 6   187 20 149 103 88 122 187
+169 6   37 87 155 101 171 71 37
+170 5   111 129 118 192 35 111
+171 5   71 169 101 63 117 71
+172 8   38 64 173 81 90 156 190 104 38
+173 6   10 181 81 172 64 62 10
+174 7   29 105 65 136 48 37 40 29
+175 4   91 47 98 176 91
+176 7   34 59 165 91 175 98 141 34
+177 6   13 157 52 142 7 92 13
+178 6   17 80 41 96 166 24 17
+179 6   35 192 58 191 114 126 35
+180 5   39 152 15 124 120 39
+181 6   10 158 146 28 81 173 10
+182 2   9 74 43
+183 2   43 60 12
+184 2   185 147 9
+185 5   186 66 166 89 147 184
+186 4   1 46 150 66 185
+187 7   45 105 29 20 168 122 107 45
+188 5   128 36 162 146 158 1
+189 3   84 151 30 128
+190 6   75 83 104 172 156 82 75
+191 3   2 114 179 58
+192 4   58 179 35 170 118
+193 3   194 140 141 100
+194 2   110 140 193
+195 3   16 63 121 4
+196 8   67 137 138 122 88 70 50 80 67
+197 2   198 97 19
+198 3   78 11 97 197
+
+RADII:
+5.000000000e+00   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   2.067032669e-01   5.157088567e-01   5.000000000e+00
+3.384995686e-01   6.435294144e-01   5.000000000e+00   5.000000000e+00
+2.139690217e-01   2.121576761e-01   5.000000000e+00   4.037316150e-01
+8.484064456e-02   1.695305178e-01   3.097471830e-01   1.693134927e-01
+8.415165225e-02   2.710110349e-01   2.780839581e-01   7.405606845e-02
+2.238130753e-01   3.978731552e-01   2.673405507e-01   3.064055067e-01
+1.322642147e-01   2.541075585e-01   4.452625172e-01   3.942641397e-01
+1.766783013e-01   8.614691721e-02   4.533272634e-01   1.038001034e-01
+1.107262717e-01   3.843020751e-01   5.000000000e+00   1.732530939e-01
+1.471442716e-01   1.658925350e-01   3.351964295e-01   9.215502493e-02
+1.847907893e-01   1.044356309e-01   2.672459515e-01   1.327406940e-01
+5.000000000e+00   2.848741718e-01   2.557145583e-01   5.603404880e-02
+1.439879753e-01   5.000000000e+00   8.675174723e-02   4.449459258e-01
+1.476619790e-01   1.903018344e-01   4.773901500e-01   1.149172184e-01
+2.297267638e-01   3.233421794e-01   1.345329924e-01   2.538557315e-01
+5.000000000e+00   2.650205901e-01   4.913542009e-01   5.000000000e+00
+1.790465667e-01   7.314233440e-01   1.980190030e-01   1.949590506e-01
+1.556084105e-01   5.000000000e+00   4.411718185e-01   2.744968254e-01
+2.073244335e-01   6.929984796e-02   1.417120283e-01   5.000000000e+00
+2.298441318e-01   4.410660710e-02   1.095627658e-01   1.925633976e-01
+2.092456053e-01   1.424063575e-01   5.156976110e-01   6.508219179e-01
+5.000000000e+00   5.200162719e-01   2.434245808e-01   4.016878939e-01
+4.075431686e-01   2.293893000e-01   5.000000000e+00   5.000000000e+00
+2.727232191e-01   2.951517714e-01   9.955674987e-02   1.146692532e-01
+1.318817136e-01   3.480780202e-01   9.402378981e-02   5.000000000e+00
+1.009964330e-01   5.000000000e+00   3.049240073e-01   1.363385726e-01
+5.000000000e+00   3.045052715e-01   1.156344288e-01   7.487133330e-02
+5.000000000e+00   5.000000000e+00   3.696008080e-01   5.516404345e-01
+6.014993373e-01   1.736037015e-01   2.598518824e-01   2.296481047e-01
+1.729081153e-01   1.564474401e-01   7.111523259e-02   5.000000000e+00
+5.000000000e+00   5.000000000e+00   1.157006561e-01   5.000000000e+00
+5.138296015e-02   2.293653615e-01   3.483189410e-01   6.746391410e-02
+1.169034562e-01   5.595974727e-02   5.000000000e+00   5.725177225e-01
+6.663569332e-01   5.239336069e-01   5.000000000e+00   5.000000000e+00
+8.136342840e-02   1.490734555e-01   2.931039999e-01   4.960314968e-01
+3.054137206e-01   2.004000040e-01   2.104464710e-01   5.000000000e+00
+1.158462120e-01   5.000000000e+00   1.458624964e-01   1.030155006e-01
+2.381463994e-01   2.919171394e-01   1.029369422e-01   2.870861689e-01
+2.480783146e-01   2.254155325e-01   1.565705687e-01   5.114385170e-01
+1.875445218e-01   2.761373647e-01   4.621870672e-01   1.995842866e-01
+2.012100720e-01   3.862480691e-01   2.567173815e-01   2.024082284e-01
+1.707493277e-01   1.675217979e-01   1.236398112e-01   2.740051289e-01
+3.393892227e-01   2.065241608e-01   4.410548424e-01   3.274735768e-01
+1.622906727e-01   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00   2.225304712e-01   5.000000000e+00
+5.000000000e+00   1.247134219e-01   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00   5.000000000e+00   2.282883544e-01
+5.000000000e+00   5.000000000e+00
+
+CENTERS:
+3.3306690739e-16 9.9799061234e-01  -9.4460456846e-01 3.2513537934e-01
+-9.5563131205e-01 -2.9303851179e-01  -5.7499387933e-01 -8.1763069958e-01
+5.5934570399e-02 -9.9690468249e-01  5.8981377392e-01 -8.0667007910e-01
+9.4025507034e-01 -3.3661796924e-01  9.9668315706e-01 -7.2329103833e-02
+8.6445759305e-01 4.9868135731e-01  -3.8736261649e-02 5.6803189461e-01
+4.9680910501e-01 -8.0817383736e-01  9.9904418159e-01 2.5634729545e-02
+7.3392978571e-01 -6.9497750710e-02  5.9023954073e-01 -6.6161294717e-01
+-9.8407232746e-01 -1.7549624701e-01  -4.3976510318e-01 -8.9755439261e-01
+1.5753795869e-01 3.6429164209e-01  5.9279457022e-01 -1.3886224324e-02
+4.4971311173e-01 -8.9270581226e-01  1.8101181501e-01 -5.8797168558e-01
+4.9678563546e-02 -1.7247156625e-01  -3.7738035497e-01 -3.4938954556e-01
+-7.8857928025e-01 -4.7697426330e-01  2.5842073279e-01 4.7391750973e-01
+6.1204669248e-01 -5.6985282695e-01  -6.4891581477e-03 2.1871085711e-01
+9.4196648243e-02 -7.4627616539e-01  -2.2827161923e-01 6.0377146333e-01
+-2.5168504558e-02 -5.4250459372e-01  -5.1986096476e-01 7.2579543827e-01
+1.2276711942e-01 5.4584595904e-01  -5.8126098169e-01 6.9586597031e-01
+-6.5934280842e-02 -7.6958416718e-02  -4.8763913337e-01 -4.3352651479e-01
+-7.1195968446e-01 4.5862405787e-01  -4.1694575361e-01 6.9755364538e-01
+-2.0820077021e-01 -6.0825748914e-01  -1.5844689565e-01 2.8459467101e-01
+-8.3278493338e-01 -1.1891194604e-01  -1.2405605545e-01 -5.9097314072e-01
+3.8969121662e-01 2.4556282941e-01  5.6220946109e-01 -5.0060255676e-01
+9.8149465858e-01 1.8720296679e-01  -7.5013384289e-02 -6.5794003786e-01
+-7.3952466492e-02 -3.0074933986e-01  1.1303521558e-01 7.5190337610e-01
+-7.6180605222e-01 -2.3068744386e-01  -2.4567290153e-01 -5.3355588220e-01
+-4.2073703722e-01 6.8804948744e-02  3.4426366919e-01 2.7416892086e-02
+3.5762332816e-01 -6.3840168575e-01  6.3442013196e-01 -2.5800006309e-01
+8.7576250860e-01 -4.8093706228e-01  4.7623237348e-01 1.1820475530e-01
+-7.3902635859e-02 -9.0623297773e-01  -1.6069740236e-01 2.1990696310e-01
+5.9745813978e-01 4.6938735729e-01  -8.7332084666e-01 4.8639260244e-01
+-4.6562720170e-01 -3.2921537187e-01  9.0382824148e-01 8.5486019004e-02
+-1.9154457694e-01 -2.2077145575e-02  -6.3463908378e-04 4.2424813849e-01
+-4.1091860412e-01 -7.9072225690e-01  -1.1156977701e-01 3.5932198350e-01
+-2.2270198430e-01 -3.6688453320e-01  2.8575060539e-01 6.2382064987e-01
+9.1362291076e-02 4.6385894522e-02  4.0732909644e-02 6.8252467781e-01
+7.0506873328e-01 -7.0841567650e-01  4.3997779495e-01 -9.5366675879e-02
+-1.8638866141e-01 -7.6683496402e-01  -9.9200460236e-01 1.0684876888e-01
+-5.7422268810e-01 2.3010902926e-01  7.6163058701e-01 1.6622223903e-01
+-4.4538980113e-01 2.1805250774e-01  -1.8119958710e-01 -1.8490917556e-01
+-5.3615736607e-01 1.2665872009e-01  5.3983727371e-01 -8.4148412919e-01
+-5.3579104180e-01 6.1417622717e-01  2.4553344303e-01 1.6680576170e-01
+-2.6032073616e-01 5.2230033610e-01  -3.9955879102e-01 3.0753024338e-01
+-3.1864626087e-01 1.6242448498e-01  -6.3968056057e-01 7.6800925247e-01
+-3.5026952810e-01 -9.2525006708e-02  2.3880803944e-03 -1.3096242370e-01
+-2.8716635541e-01 -5.8006225830e-01  3.1305200710e-01 -2.3618081844e-01
+5.2902779206e-01 5.0781015963e-01  -3.4902379792e-01 4.4491515783e-01
+-6.2578258095e-01 -7.5967550831e-02  8.7377651205e-01 -1.4940700175e-01
+9.7474752671e-01 -2.2103007455e-01  4.6326827538e-01 -7.2856566272e-01
+-3.4533162555e-01 -4.8864124279e-01  5.3593056092e-01 3.4546767542e-01
+4.7238386559e-01 -8.4019997898e-01  -6.9875643115e-01 -3.2161424143e-01
+-1.7900742432e-01 -9.8280122962e-01  -8.2207544202e-01 -5.6827646348e-01
+-3.9159021406e-01 -6.8557020335e-01  -8.1941326701e-02 -8.4549672290e-01
+3.4778170414e-01 -3.4829972911e-01  -2.3569100315e-01 2.3925298194e-01
+-8.4410100256e-02 -4.2051522503e-01  5.0189772712e-01 -3.1104540776e-01
+2.7105659646e-02 -2.5458645740e-01  6.5391967531e-01 -7.5599251878e-01
+-5.3707084521e-01 -5.0981014921e-01  -6.3626639485e-01 -7.7065507773e-01
+-6.3343325998e-01 5.4007746142e-01  -3.1531436566e-01 -2.4588468462e-01
+-8.6299315470e-01 -5.0438982632e-01  -8.1372534985e-01 3.7569928366e-01
+-2.9175322749e-01 5.0519895399e-02  -1.4325088689e-01 -6.4118508733e-01
+-3.3537962993e-01 -9.4085463210e-01  -7.8361523412e-01 6.2050681410e-01
+4.4251769020e-01 -8.1355265577e-01  -8.7823668561e-01 -2.2883241003e-01
+-5.1043169158e-01 -7.2869090166e-01  1.5076137351e-01 -2.4116202555e-01
+-3.9549245498e-01 5.5759668359e-01  -9.2215243878e-01 -1.9352020155e-01
+2.2972251421e-02 -6.5899042841e-01  -7.6606786699e-01 3.9685472367e-01
+-0.0000000000e+00 0.0000000000e+00  -4.9363680508e-01 8.6857683740e-01
+-7.1605917185e-01 6.9657210699e-01  -9.7205776463e-01 -2.3306889684e-01
+-8.1443031053e-02 4.5183798145e-02  -7.3581529751e-02 -9.9678868431e-01
+1.2420317385e-04 6.1172494023e-02  -6.5516324806e-01 1.4166228515e-01
+-4.7103769550e-01 -5.8551000382e-01  -2.4018676374e-01 -4.7924948236e-01
+5.7742539936e-02 -7.3835932072e-02  1.0997733321e-01 -1.4060590166e-01
+-9.1369002221e-01 -4.0295050791e-01  -6.0898909165e-01 -6.3885101412e-01
+-6.8023542771e-01 -4.8353660896e-01  7.0528375448e-01 -3.8457012832e-01
+9.8778966664e-01 -1.5300816511e-01  3.1951222540e-01 -9.4531472505e-01
+-5.3955557141e-02 -9.2396755226e-01  -2.0674181778e-01 6.6144264612e-01
+6.1791238085e-01 5.4756786980e-01  8.6603136228e-01 -9.5638181550e-03
+3.8052864309e-01 -4.8422899590e-01  1.6023254993e-01 6.8058480816e-01
+-5.7017843900e-01 7.3480939572e-01  -9.9493753111e-01 -9.2213450070e-02
+-5.5973174972e-01 -5.4905105229e-01  7.8659328468e-01 -6.1526977989e-01
+-3.5399104923e-01 -6.0079581201e-01  -3.6025445128e-01 3.5824879719e-01
+6.0636649153e-01 -1.5580883519e-01  -1.0053375620e-01 7.0062617677e-01
+-3.9571537132e-02 -1.8895653038e-01  -2.7443428527e-02 -7.6034516445e-01
+4.6636221912e-01 -5.9942528675e-01  -3.0042254856e-01 6.4080209549e-01
+-1.8801284531e-01 1.2387107840e-01  -7.3050892694e-01 2.9726383912e-01
+-4.4372846198e-01 -2.3393012985e-01  4.0136057495e-01 4.9924252192e-01
+-5.3321413356e-01 4.1457053068e-01  2.3477514232e-01 -3.7860581675e-01
+-2.9312073900e-01 -6.6189321043e-01  -7.1502246359e-01 5.5522516301e-01
+-3.2133555440e-01 -7.4966445551e-01  -2.4299534592e-01 3.7331277063e-01
+-1.3540379164e-01 4.7248157572e-01  -1.6056377020e-01 -5.0665961564e-01
+-6.6494267813e-01 -2.4930584013e-01  -5.7646570955e-01 -3.0876723511e-01
+7.3798228725e-01 -2.1847643111e-01  3.2754350842e-01 3.5278003153e-01
+-8.0624493937e-01 4.4183353556e-01  -9.0661717889e-01 -1.6005010926e-01
+-1.5863137021e-01 5.8590727913e-01  9.4887068545e-01 3.1267240569e-01
+9.9440529441e-01 1.0158394469e-01  7.4424670380e-01 6.6646598703e-01
+5.8019592657e-01 8.1168467665e-01  2.9554393914e-01 9.5321128641e-01
+6.0484734670e-02 -3.9164272729e-01  -3.0118672323e-01 9.5135931788e-01
+-5.8107196356e-01 8.1322204387e-01  -3.3148748328e-01 2.7431928807e-01
+-9.0354622852e-01 4.2721186231e-01  -8.3344390003e-01 5.5130140780e-01
+-7.5858039781e-01 -6.5038092894e-01  -6.9683397190e-01 -7.1656738087e-01
+-5.1143742547e-01 -8.5861913732e-01  2.2547666534e-01 -6.8112630364e-02
+4.8469788440e-01 -8.7448804435e-01  5.1011401646e-01 -8.5983842694e-01
+
+
+END
+    </circlepacking>
+    <circlepacking name="Fig66answer.p">
+NODECOUNT:  198
+GEOMETRY: euclidean
+ALPHA/BETA/GAMMA:  127 0 1
+PACKNAME: polypack.p
+FLOWERS:
+
+1 4   188 158 68 46 186
+2 3   84 151 30 128
+3 2   191 179 189
+4 5   58 39 91 134 164 192
+5 3   193 141 23 113
+6 2   117 63 195
+7 6   19 119 94 51 20 27 100
+8 5   53 142 42 25 14 69
+9 2   43 60 12
+10 6   31 68 158 181 173 62 31
+11 6   97 198 78 16 94 119 97
+12 3   9 60 148 154
+13 6   18 157 177 92 148 74 18
+14 8   94 16 108 69 8 25 42 161 94
+15 3   130 124 180 58
+16 4   108 14 94 11 78
+17 6   26 80 178 24 31 62 26
+18 5   54 70 157 13 74 54
+19 3   197 97 119 7
+20 8   187 29 125 27 7 51 149 168 187
+21 6   86 159 107 122 138 137 86
+22 6   112 165 59 34 95 65 112
+23 4   5 141 139 113 5
+24 5   17 178 166 66 31 17
+25 3   14 8 42 14
+26 10   131 133 67 80 17 62 64 38 56 163 131
+27 5   20 125 160 100 7 20
+28 4   81 181 146 162 81
+29 7   187 105 174 40 44 125 20 187
+30 6   36 128 2 151 32 79 36
+31 7   17 24 66 150 68 10 62 17
+32 5   30 151 84 129 79 30
+33 7   131 61 76 159 86 137 127 131
+34 7   22 59 176 141 109 135 95 22
+35 7   111 170 189 179 126 164 167 111
+36 6   162 188 128 30 79 123 162
+37 7   40 174 48 87 169 71 116 40
+38 5   26 64 172 104 56 26
+39 6   91 4 58 180 120 47 91
+40 5   29 174 37 116 44 29
+41 4   54 96 178 80 54
+42 7   14 25 8 142 106 149 161 14
+43 3   182 74 60 9
+44 6   29 40 116 71 160 125 29
+45 6   76 65 105 187 107 159 76
+46 4   68 150 186 1 68
+47 6   91 39 120 139 98 175 91
+48 5   37 174 136 95 87 37
+49 6   85 115 83 75 77 91 85
+50 4   196 70 54 80 196
+51 5   20 7 94 161 149 20
+52 4   106 142 177 157 106
+53 2   144 142 8
+54 7   50 70 18 74 96 41 80 50
+55 5   102 99 132 145 100 102
+56 4   26 38 104 163 26
+57 4   96 183 147 89 96
+58 3   15 180 39 4
+59 4   22 165 176 34 22
+60 5   74 148 12 9 43 74
+61 6   33 131 163 115 85 76 33
+62 6   26 17 31 10 173 64 26
+63 6   101 121 195 6 117 171 101
+64 5   26 62 173 172 38 26
+65 8   76 112 22 95 136 174 105 45 76
+66 6   24 166 185 186 150 31 24
+67 6   26 133 127 137 196 80 26
+68 6   31 150 46 1 158 10 31
+69 2   8 14 108
+70 7   196 88 106 157 18 54 50 196
+71 9   37 169 171 117 99 102 160 44 116 37
+72 2   195 121 110
+73 5   75 167 164 134 77 75
+74 9   54 18 13 148 60 43 182 183 96 54
+75 7   49 83 190 82 167 73 77 49
+76 7   33 61 85 112 65 45 159 33
+77 5   49 75 73 134 91 49
+78 2   16 11 198
+79 7   36 30 32 129 111 167 123 36
+80 8   26 67 196 50 54 41 178 17 26
+81 7   123 90 172 173 181 28 162 123
+82 4   75 190 156 167 75
+83 6   49 115 163 104 190 75 49
+84 3   129 32 151 2
+85 7   61 115 49 91 165 112 76 61
+86 4   33 159 21 137 33
+87 5   37 48 95 155 169 37
+88 6   196 122 168 103 106 70 196
+89 5   57 147 185 166 96 57
+90 5   123 167 156 172 81 123
+91 10   85 49 77 134 4 39 47 175 176 165 85
+92 7   13 177 144 93 143 154 148 13
+93 2   143 92 144
+94 7   51 7 119 11 16 14 161 51
+95 8   22 34 135 155 87 48 136 65 22
+96 8   54 74 183 57 89 166 178 41 54
+97 5   119 19 197 198 11 119
+98 5   47 139 141 176 175 47
+99 4   132 55 102 71 117
+100 6   7 27 160 102 55 145 132
+101 6   155 135 121 63 171 169 155
+102 5   71 99 55 100 160 71
+103 4   88 168 149 106 88
+104 6   38 172 190 83 163 56 38
+105 5   45 65 174 29 187 45
+106 8   70 88 103 149 42 142 52 157 70
+107 5   45 187 122 21 159 45
+108 2   69 14 16
+109 4   34 141 153 135 34
+110 3   72 121 140 194
+111 5   79 129 170 35 167 79
+112 5   76 85 165 22 65 76
+113 2   5 23 139
+114 5   126 179 191 192 164 126
+115 5   61 163 83 49 85 61
+116 4   40 37 71 44 40
+117 4   99 71 171 63 6
+118 2   189 170 129
+119 5   94 7 19 97 11 94
+120 7   39 180 124 130 152 139 47 39
+121 7   101 135 140 110 72 195 63 101
+122 7   196 138 21 107 187 168 88 196
+123 6   36 79 167 90 81 162 36
+124 4   180 15 130 120 180
+125 5   20 29 44 160 27 20
+126 4   35 179 114 164 35
+127 5   131 33 137 67 133 131
+128 3   2 30 36 188
+129 5   118 170 111 79 32 84
+130 3   152 120 124 15
+131 6   61 33 127 133 26 163 61
+132 3   100 145 55 99
+133 4   131 127 67 26 131
+134 5   73 164 4 91 77 73
+135 8   34 109 153 140 121 101 155 95 34
+136 4   48 174 65 95 48
+137 7   33 86 21 138 196 67 127 33
+138 4   196 137 21 122 196
+139 6   113 23 141 98 47 120 152
+140 7   121 135 153 141 193 194 110 121
+141 10   34 176 98 139 23 5 193 140 153 109 34
+142 7   42 8 53 144 177 52 106 42
+143 2   154 92 93
+144 4   93 92 177 142 53
+145 3   55 132 100 55
+146 5   158 188 162 28 181 158
+147 5   57 183 184 185 89 57
+148 6   13 92 154 12 60 74 13
+149 7   20 51 161 42 106 103 168 20
+150 5   31 66 186 46 68 31
+151 4   30 2 84 32 30
+152 2   139 120 130
+153 4   109 141 140 135 109
+154 3   12 148 92 143
+155 5   87 95 135 101 169 87
+156 5   190 172 90 167 82 190
+157 6   18 70 106 52 177 13 18
+158 6   10 68 1 188 146 181 10
+159 6   33 76 45 107 21 86 33
+160 6   27 125 44 71 102 100 27
+161 5   51 94 14 42 149 51
+162 6   146 188 36 123 81 28 146
+163 7   131 26 56 104 83 115 61 131
+164 8   73 167 35 126 114 192 4 134 73
+165 6   112 85 91 176 59 22 112
+166 6   24 178 96 89 185 66 24
+167 10   79 111 35 164 73 75 82 156 90 123 79
+168 6   187 20 149 103 88 122 187
+169 6   37 87 155 101 171 71 37
+170 5   111 129 118 189 35 111
+171 5   71 169 101 63 117 71
+172 8   38 64 173 81 90 156 190 104 38
+173 6   10 181 81 172 64 62 10
+174 7   29 105 65 136 48 37 40 29
+175 4   91 47 98 176 91
+176 7   34 59 165 91 175 98 141 34
+177 6   13 157 52 142 144 92 13
+178 6   17 80 41 96 166 24 17
+179 6   35 189 3 191 114 126 35
+180 5   39 58 15 124 120 39
+181 6   10 158 146 28 81 173 10
+182 2   183 74 43
+183 5   184 147 57 96 74 182
+184 2   185 147 183
+185 5   186 66 166 89 147 184
+186 4   1 46 150 66 185
+187 7   45 105 29 20 168 122 107 45
+188 5   128 36 162 146 158 1
+189 4   3 179 35 170 118
+190 6   75 83 104 172 156 82 75
+191 3   192 114 179 3
+192 3   4 164 114 191
+193 3   194 140 141 5
+194 2   110 140 193
+195 3   6 63 121 72
+196 8   67 137 138 122 88 70 50 80 67
+197 2   198 97 19
+198 3   78 11 97 197
+
+RADII:
+2.148638584e-01   2.429140575e-01   1.465808054e-01   8.571558444e-02
+2.327347631e-01   1.664363829e-01   3.795321869e-02   2.008305199e-01
+2.875227228e-02   8.621874978e-02   5.080285762e-03   3.627473499e-02
+5.665826895e-02   3.782540007e-02   1.016551845e-02   2.065432965e-02
+8.552833355e-02   5.175244427e-02   3.518612161e-03   7.032322046e-02
+3.462407960e-02   6.792684051e-02   4.155188265e-02   5.338980078e-02
+1.032262927e-02   1.291008298e-01   2.962965547e-02   3.277191388e-02
+5.833607953e-02   1.152594668e-01   9.469441550e-02   7.183198743e-02
+6.039361519e-02   9.247566489e-02   1.202173144e-01   1.390575298e-01
+4.999334737e-02   4.358710340e-02   4.261778567e-02   2.755451786e-02
+3.513290591e-02   6.412330790e-02   4.491802516e-02   3.615506462e-02
+5.744251446e-02   3.908791026e-02   5.656875405e-02   3.049953896e-02
+7.950565391e-02   3.705482155e-02   2.752318454e-02   2.749926558e-02
+3.994018032e-02   8.400377047e-02   8.443784084e-03   2.826241838e-02
+1.953774946e-02   2.439246833e-02   3.343945272e-02   3.227593215e-02
+7.011477039e-02   8.572573962e-02   9.735020508e-02   5.682871004e-02
+9.038500889e-02   7.479132884e-02   5.972364421e-02   8.247074558e-02
+1.350493139e-02   8.135101601e-02   8.598899639e-02   3.748539787e-02
+6.423938588e-02   1.074096532e-01   8.784348868e-02   8.601684841e-02
+5.724792924e-02   2.165498951e-03   1.600737976e-01   1.075979476e-01
+9.936422745e-02   3.319595998e-02   6.853949446e-02   8.133838476e-02
+1.002513250e-01   1.901882490e-02   3.478146243e-02   6.104689631e-02
+3.238872907e-02   6.995340980e-02   1.453258398e-01   4.674212349e-02
+1.439554206e-02   2.378166603e-02   8.821859504e-02   8.915383454e-02
+1.956204009e-03   5.781147454e-02   4.928325934e-02   4.896796048e-02
+7.324757742e-02   2.376019506e-02   2.630321997e-02   5.797048743e-02
+4.509366843e-02   8.472765781e-02   3.616371111e-02   9.781111034e-03
+3.266590800e-02   7.183767462e-02   9.428954829e-02   5.801231928e-02
+2.981912081e-02   4.925311956e-02   5.484371868e-02   1.813935578e-02
+1.318866980e-01   4.091252191e-02   4.871216060e-03   3.000465649e-02
+1.025693945e-01   6.219321007e-02   1.178043534e-01   5.660902640e-03
+3.035394655e-02   3.525254513e-02   3.274631304e-02   1.548542277e-01
+1.904485084e-01   1.150494073e-02   5.561184087e-02   6.476669182e-03
+2.411393409e-02   6.090148297e-02   1.050010188e-01   2.390740149e-02
+5.060031483e-02   2.251771506e-02   1.468440582e-01   1.023149783e-01
+1.776961296e-01   8.152994248e-02   1.261681332e-02   7.608684667e-02
+1.660665192e-03   6.013901552e-02   2.437907351e-02   4.689343226e-02
+5.862135204e-02   5.177098240e-02   4.453141005e-02   1.223403157e-02
+3.334344269e-02   3.535576652e-02   4.594605184e-02   5.083964394e-02
+5.489803432e-02   1.061150739e-01   4.348021587e-02   3.725328328e-02
+2.713645545e-02   9.455723771e-02   7.764097760e-02   1.215024865e-01
+7.419380339e-02   6.411323410e-02   1.922670092e-01   5.503713104e-02
+5.540585434e-02   6.887937272e-02   5.924410590e-02   1.023449894e-01
+8.168431478e-02   5.396247049e-02   3.262673801e-02   9.256944322e-02
+5.323782073e-02   6.651052457e-02   8.211519483e-02   1.191170790e-02
+7.182854786e-02   3.350036567e-02   9.489967410e-02   1.719315467e-02
+1.044211136e-01   1.078710180e-01   7.004460946e-02   2.459815949e-01
+1.375948072e-01   6.163575867e-02   7.452032838e-02   7.673131725e-02
+1.208552316e-01   4.013472424e-02   9.104339946e-02   8.805550217e-02
+9.660717438e-04   2.356799778e-03
+
+CENTERS:
+0.0000000000e+00 1.0000000000e+00  -1.2594133221e+00 1.0095543014e+00
+-1.2692000092e+00 -2.8049188459e-01  -7.3441571685e-01 -2.8454892095e-01
+-7.4039636231e-01 -1.0728968596e+00  3.8145535725e-01 -1.0814075659e+00
+3.8659583147e-01 -4.0380828904e-01  7.3126436125e-01 -4.0642305232e-01
+7.3626301104e-01 2.5248054716e-01  -1.4008146074e-01 5.7751054738e-01
+4.3849836811e-01 -3.9722354359e-01  7.3576970985e-01 1.8745541103e-01
+5.7755714072e-01 8.9751787836e-02  4.9774184240e-01 -3.5719012302e-01
+-7.3551316559e-01 -4.2921079776e-01  4.6321514021e-01 -4.0438954689e-01
+7.2219296315e-02 3.6263262481e-01  4.7069023847e-01 1.0798220046e-01
+4.2806646897e-01 -4.0412289811e-01  2.9740017983e-01 -3.4242487920e-01
+9.3905019752e-02 -1.2716424776e-01  -1.8115666304e-01 -4.6215312528e-01
+-6.6705513918e-01 -8.0859735325e-01  1.6527986642e-01 4.6577320042e-01
+5.3549357440e-01 -3.2730635730e-01  -6.6842493625e-02 1.9914716265e-01
+3.2804651346e-01 -4.3756361811e-01  -3.9863748533e-01 6.2312703108e-01
+1.8560547320e-01 -4.0610500989e-01  -9.9278923229e-01 7.7038936208e-01
+3.6757383489e-02 5.3933206458e-01  -1.1183839310e+00 6.3172002905e-01
+-3.2948319180e-02 -8.7117475247e-02  -2.4164124893e-01 -6.1071482496e-01
+-1.0139717256e+00 5.2883257928e-02  -7.4044377234e-01 7.3878392375e-01
+1.2543735809e-01 -5.5671878548e-01  -2.3677525534e-01 2.2987140015e-01
+-6.6824091692e-01 -3.9450504737e-01  1.6332172221e-01 -4.8905456781e-01
+2.8520013107e-01 2.8003455871e-01  5.1289377571e-01 -2.5637366628e-01
+6.8456692390e-01 3.0496699589e-01  2.2700015743e-01 -4.9104649822e-01
+4.5267462075e-02 -2.7012967862e-01  7.9932000490e-02 7.5895565528e-01
+-6.1003715720e-01 -4.7481875739e-01  4.7955806887e-02 -5.3490791723e-01
+-4.1385958773e-01 -9.7022107024e-02  2.7826704561e-01 1.0024833724e-01
+3.9518298015e-01 -3.3889742511e-01  5.4513443648e-01 -6.4561406101e-02
+7.3309087070e-01 -1.6565928021e-01  3.6128479614e-01 1.8835756378e-01
+3.7059585129e-01 -5.4605123611e-01  -2.1930436807e-01 1.6017834540e-01
+4.2521451183e-01 4.5931189757e-01  -7.3525100581e-01 -3.9465380538e-01
+-2.7852968791e-01 -4.9032437719e-01  6.8041051162e-01 2.2788501821e-01
+-1.6342588729e-01 -8.4281470200e-02  -9.1600669491e-02 4.1254230706e-01
+1.8786747525e-01 -9.0222303546e-01  -2.0392259672e-01 3.2476101189e-01
+-3.9678571954e-02 -3.9111376009e-01  1.9863625939e-01 5.8953811079e-01
+6.5906077384e-02 6.4862022451e-02  -2.8512930107e-02 7.0403567859e-01
+5.1693507740e-01 -4.0479708319e-01  3.6812765624e-01 2.3144426650e-02
+2.5012387801e-01 -6.1098175227e-01  -4.5421150902e-03 -1.0784792721e+00
+-6.5026870444e-01 -3.6632245263e-02  5.4249124830e-01 2.5002863041e-01
+-5.1628431780e-01 3.5321801775e-02  -8.9879439830e-02 -2.2200584151e-01
+-5.5033647106e-01 -1.0571709505e-01  4.4039596829e-01 -4.0421643350e-01
+-9.2515333666e-01 5.0349276759e-01  1.6983526247e-01 1.9599264274e-01
+-4.3018523105e-01 4.9481218554e-01  -5.1977517411e-01 1.5631090068e-01
+-3.6000008041e-01 4.0878289745e-02  -1.2618731308e+00 6.8531118941e-01
+-2.7589196433e-01 -2.1225016934e-01  4.3191387764e-02 -1.0968029129e-01
+5.2559251169e-02 -6.0002640495e-01  3.0409327207e-01 -1.0404347796e-01
+3.7852854960e-01 4.8204469558e-01  -5.2657379923e-01 3.5560835569e-01
+-5.0410786819e-01 -3.0294551126e-01  6.7620423325e-01 5.8761591213e-02
+7.3465747094e-01 4.0844193201e-02  4.3716184471e-01 -3.6839255390e-01
+-6.6129857337e-02 -5.6774777957e-01  3.7991491831e-01 3.6051003899e-01
+4.3272049784e-01 -4.0123956195e-01  -5.4332965422e-01 -5.6773240407e-01
+3.8509283231e-01 -6.0192832505e-01  3.8593643968e-01 -4.9072696702e-01
+6.8362853552e-02 -7.8047637725e-01  3.3839315756e-01 -5.4576350867e-01
+3.5223164214e-01 -1.7693202398e-01  -3.0538106451e-01 1.5499024626e-01
+9.2448644679e-02 -3.6116596157e-01  4.4875120612e-01 -1.2205188562e-01
+1.0398581356e-01 -1.9723056570e-01  4.9364970504e-01 -4.0462043307e-01
+-2.4437430622e-01 -7.3582654968e-01  -1.1386204184e-01 -1.0776499381e+00
+-1.0196059695e+00 2.6731611337e-01  -1.7756763342e-01 -3.3626511618e-01
+-7.3840460662e-01 -8.1035053056e-01  -9.7355322207e-01 -1.8336703425e-01
+-2.8546997056e-01 -5.7451156557e-02  1.8722152909e-01 -5.2799977698e-01
+3.8371846158e-01 -7.8309306922e-01  -1.2656900560e+00 1.8217774367e-01
+4.2865599720e-01 -3.9575380772e-01  -6.9562126291e-01 -4.6176823015e-01
+-8.7355547390e-03 -9.3848727261e-01  1.8863734248e-01 -1.4714860692e-01
+-6.4730528415e-01 4.9940295296e-01  -7.2317311089e-01 -4.3912032117e-01
+2.6807437548e-01 -4.3873629676e-01  -9.8219392363e-01 -9.9304285952e-02
+-0.0000000000e+00 0.0000000000e+00  -8.6165648243e-01 1.0065367952e+00
+-1.2639349307e+00 4.1353211676e-01  -7.3567755951e-01 -4.5088063338e-01
+-8.6981646015e-02 1.5535656353e-02  3.8551583187e-01 -5.4617000114e-01
+-1.7248331341e-02 5.4181018534e-02  -6.5437764864e-01 -1.6170563828e-01
+-1.0824165120e-01 -7.5632247564e-01  1.5701008320e-02 -4.9109304376e-01
+6.9903170618e-02 -4.5389504445e-02  1.3176655346e-01 -8.4366012237e-02
+-7.3706442501e-01 -6.3369243496e-01  -2.1358813264e-01 -9.3487790541e-01
+-4.4923389081e-01 -7.8362547688e-01  6.1260795944e-01 -1.5020422195e-01
+7.3486238926e-01 6.7855771276e-02  7.3397106282e-01 -4.9635591886e-02
+3.7929970774e-01 -5.4091871452e-01  -3.6944818069e-01 7.1133375030e-01
+4.3136780808e-01 5.0279550697e-01  6.6094628746e-01 1.5114563953e-01
+3.9019835654e-01 -2.5289722338e-01  1.0152378253e-01 6.7069958850e-01
+-1.1503209852e+00 7.4361491207e-01  -7.3585764534e-01 -4.7461892261e-01
+-2.3896233779e-01 -8.0161366831e-01  7.3522631392e-01 1.1582697068e-01
+1.7433311755e-02 -6.7271134106e-01  -4.9955129314e-01 2.3787668620e-01
+5.0335077869e-01 6.4557817520e-03  -2.0954914083e-01 7.5686087815e-01
+2.8949162223e-02 -1.7053494690e-01  3.0004881750e-01 -4.9830451463e-01
+4.4577585065e-01 -3.1820835330e-01  -5.1788385898e-01 6.6777023053e-01
+-2.1444507732e-01 5.4386490459e-02  -8.2544153467e-01 -9.8394067597e-02
+-3.0048183079e-01 -3.8495350245e-01  2.8209174276e-01 4.7849910905e-01
+-7.4022689191e-01 2.0358235728e-01  2.8202632474e-01 -2.1801080324e-01
+1.1820365758e-01 -6.6186946448e-01  -1.1559879244e+00 1.7773900018e-01
+1.9625064508e-01 -7.4585327915e-01  -3.6186795896e-01 3.0502451863e-01
+-2.5380083062e-01 4.5398182998e-01  8.7128267008e-02 -4.6007911660e-01
+-5.2099784102e-01 -4.8009473861e-01  -4.0155128125e-01 -5.1759944702e-01
+6.0923867607e-01 -1.5478582503e-02  2.2425298165e-01 3.6137847021e-01
+-1.0947298337e+00 -1.3263378250e-01  -7.1403281316e-01 -4.2411193690e-01
+-2.9629826250e-01 6.0149510832e-01  6.2953899398e-01 3.6083622668e-01
+5.3943782877e-01 4.5231491404e-01  4.6077979638e-01 5.3217551888e-01
+3.7544035800e-01 6.1881967915e-01  2.2647024497e-01 7.7006733891e-01
+1.7248628153e-01 -2.7839640362e-01  -4.6083219254e-01 1.0034960177e+00
+-1.2670442283e+00 3.6755510377e-03  -4.2498008365e-01 1.5367543380e-01
+-1.0481052376e+00 -2.8216917697e-01  -8.9685794417e-01 -2.8331658491e-01
+-3.8681654207e-01 -1.0755792228e+00  -2.2583121871e-01 -1.0768005061e+00
+1.2398298385e-01 -1.0794543024e+00  1.9996263207e-01 2.6726644215e-03
+4.3255102383e-01 -4.0415691933e-01  4.3587379974e-01 -4.0418212694e-01
+
+
+END
+    </circlepacking>
+    <path name="square.g">
+PATH:
+0.0 1.0
+-1.0 0.0
+0.0 -1.0
+1.0 0.0
+END
+
+    </path>
+    <circlepacking name="startDozen.p">
+NODECOUNT:  198
+GEOMETRY: euclidean
+ALPHA/BETA/GAMMA:  33 0 1
+PACKNAME: start1.p
+FLOWERS:
+
+1 2   154 92 93
+2 2   183 74 43
+3 5   186 66 166 89 147 184
+4 5   182 36 162 146 158 188
+5 5   118 170 111 79 32 84
+6 3   187 114 179 190
+7 2   192 120 130
+8 3   194 140 141 129
+9 3   196 63 121 72
+10 6   20 27 160 102 195 145 132
+11 2   112 78 198
+12 5   53 142 42 25 14 69
+13 6   18 157 177 92 148 74 18
+14 8   94 112 108 69 12 25 42 161 94
+15 3   130 124 180 58
+16 5   76 85 165 22 65 76
+17 6   26 80 178 24 31 62 26
+18 5   54 70 157 13 74 54
+19 8   67 137 138 122 88 70 50 80 67
+20 6   152 119 94 51 193 27 10
+21 6   86 159 107 122 138 137 86
+22 6   16 165 59 34 95 65 16
+23 4   129 141 192 113 129
+24 5   17 178 166 66 31 17
+25 3   14 12 42 14
+26 10   131 133 67 80 17 62 64 38 56 163 131
+27 5   193 125 160 10 20 193
+28 4   81 181 146 162 81
+29 7   185 105 174 40 44 125 193 185
+30 5   58 39 91 134 164 187
+31 7   17 24 66 150 68 100 62 17
+32 5   117 151 84 5 79 117
+33 7   131 61 76 159 86 137 127 131
+34 7   22 59 176 141 109 135 95 22
+35 7   111 170 189 179 126 164 167 111
+36 6   162 4 182 117 79 123 162
+37 7   40 174 48 87 169 71 116 40
+38 5   26 64 172 104 56 26
+39 6   91 30 58 180 120 47 91
+40 5   29 174 37 116 44 29
+41 4   54 96 178 80 54
+42 7   14 25 12 142 106 149 161 14
+43 3   2 74 60 143
+44 6   29 40 116 71 160 125 29
+45 6   76 65 105 185 107 159 76
+46 4   68 150 186 188 68
+47 6   91 39 120 192 98 175 91
+48 5   37 174 136 95 87 37
+49 6   85 115 83 75 77 91 85
+50 4   19 70 54 80 19
+51 5   193 20 94 161 149 193
+52 4   106 142 177 157 106
+53 2   144 142 12
+54 7   50 70 18 74 96 41 80 50
+55 3   143 60 148 154
+56 4   26 38 104 163 26
+57 4   96 183 147 89 96
+58 3   15 180 39 30
+59 4   22 165 176 34 22
+60 5   74 148 55 143 43 74
+61 6   33 131 163 115 85 76 33
+62 6   26 17 31 100 173 64 26
+63 6   101 121 9 196 191 171 101
+64 5   26 62 173 172 38 26
+65 8   76 16 22 95 136 174 105 45 76
+66 6   24 166 3 186 150 31 24
+67 6   26 133 127 137 19 80 26
+68 6   31 150 46 188 158 100 31
+69 2   12 14 108
+70 7   19 88 106 157 18 54 50 19
+71 9   37 169 171 191 99 102 160 44 116 37
+72 2   9 121 110
+73 5   75 167 164 134 77 75
+74 9   54 18 13 148 60 43 2 183 96 54
+75 7   49 83 139 82 167 73 77 49
+76 7   33 61 85 16 65 45 159 33
+77 5   49 75 73 134 91 49
+78 6   97 198 11 112 94 119 97
+79 7   36 117 32 5 111 167 123 36
+80 8   26 67 19 50 54 41 178 17 26
+81 7   123 90 172 173 181 28 162 123
+82 4   75 139 156 167 75
+83 6   49 115 163 104 139 75 49
+84 3   5 32 151 155
+85 7   61 115 49 91 165 16 76 61
+86 4   33 159 21 137 33
+87 5   37 48 95 128 169 37
+88 6   19 122 168 103 106 70 19
+89 5   57 147 3 166 96 57
+90 5   123 167 156 172 81 123
+91 10   85 49 77 134 30 39 47 175 176 165 85
+92 7   13 177 144 93 1 154 148 13
+93 2   1 92 144
+94 7   51 20 119 78 112 14 161 51
+95 8   22 34 135 128 87 48 136 65 22
+96 8   54 74 183 57 89 166 178 41 54
+97 5   119 152 197 198 78 119
+98 5   47 192 141 176 175 47
+99 4   132 195 102 71 191
+100 6   31 68 158 181 173 62 31
+101 6   128 135 121 63 171 169 128
+102 5   71 99 195 10 160 71
+103 4   88 168 149 106 88
+104 6   38 172 139 83 163 56 38
+105 5   45 65 174 29 185 45
+106 8   70 88 103 149 42 142 52 157 70
+107 5   45 185 122 21 159 45
+108 2   69 14 112
+109 4   34 141 153 135 34
+110 3   72 121 140 194
+111 5   79 5 170 35 167 79
+112 4   108 14 94 78 11
+113 2   129 23 192
+114 5   126 179 6 187 164 126
+115 5   61 163 83 49 85 61
+116 4   40 37 71 44 40
+117 6   36 182 155 151 32 79 36
+118 2   189 170 5
+119 5   94 20 152 97 78 94
+120 7   39 180 124 130 7 192 47 39
+121 7   101 135 140 110 72 9 63 101
+122 7   19 138 21 107 185 168 88 19
+123 6   36 79 167 90 81 162 36
+124 4   180 15 130 120 180
+125 5   193 29 44 160 27 193
+126 4   35 179 114 164 35
+127 5   131 33 137 67 133 131
+128 5   87 95 135 101 169 87
+129 3   8 141 23 113
+130 3   7 120 124 15
+131 6   61 33 127 133 26 163 61
+132 3   10 145 195 99
+133 4   131 127 67 26 131
+134 5   73 164 30 91 77 73
+135 8   34 109 153 140 121 101 128 95 34
+136 4   48 174 65 95 48
+137 7   33 86 21 138 19 67 127 33
+138 4   19 137 21 122 19
+139 6   75 83 104 172 156 82 75
+140 7   121 135 153 141 8 194 110 121
+141 10   34 176 98 192 23 129 8 140 153 109 34
+142 7   42 12 53 144 177 52 106 42
+143 2   43 60 55
+144 4   93 92 177 142 53
+145 3   195 132 10 195
+146 5   158 4 162 28 181 158
+147 5   57 183 184 3 89 57
+148 6   13 92 154 55 60 74 13
+149 7   193 51 161 42 106 103 168 193
+150 5   31 66 186 46 68 31
+151 4   117 155 84 32 117
+152 3   197 97 119 20
+153 4   109 141 140 135 109
+154 3   55 148 92 1
+155 3   84 151 117 182
+156 5   139 172 90 167 82 139
+157 6   18 70 106 52 177 13 18
+158 6   100 68 188 4 146 181 100
+159 6   33 76 45 107 21 86 33
+160 6   27 125 44 71 102 10 27
+161 5   51 94 14 42 149 51
+162 6   146 4 36 123 81 28 146
+163 7   131 26 56 104 83 115 61 131
+164 8   73 167 35 126 114 187 30 134 73
+165 6   16 85 91 176 59 22 16
+166 6   24 178 96 89 3 66 24
+167 10   79 111 35 164 73 75 82 156 90 123 79
+168 6   185 193 149 103 88 122 185
+169 6   37 87 128 101 171 71 37
+170 5   111 5 118 189 35 111
+171 5   71 169 101 63 191 71
+172 8   38 64 173 81 90 156 139 104 38
+173 6   100 181 81 172 64 62 100
+174 7   29 105 65 136 48 37 40 29
+175 4   91 47 98 176 91
+176 7   34 59 165 91 175 98 141 34
+177 6   13 157 52 142 144 92 13
+178 6   17 80 41 96 166 24 17
+179 6   35 189 190 6 114 126 35
+180 5   39 58 15 124 120 39
+181 6   100 158 146 28 81 173 100
+182 3   155 117 36 4
+183 5   184 147 57 96 74 2
+184 2   3 147 183
+185 7   45 105 29 193 168 122 107 45
+186 4   188 46 150 66 3
+187 3   30 164 114 6
+188 4   4 158 68 46 186
+189 4   190 179 35 170 118
+190 2   6 179 189
+191 4   99 71 171 63 196
+192 6   113 23 141 98 47 120 7
+193 8   185 29 125 27 20 51 149 168 185
+194 2   110 140 8
+195 5   102 99 132 145 10 102
+196 2   191 63 9
+197 2   198 97 152
+198 3   11 78 97 197
+
+RADII:
+2.750778802e-02   5.516736259e-02   1.211596069e-01   1.215751372e-01
+6.849448143e-02   4.032185335e-02   3.779824689e-02   6.611647190e-02
+5.179130261e-02   1.149874777e-01   1.819031082e-02   8.917643606e-02
+7.055155417e-02   7.242429683e-02   3.339861529e-02   6.139582552e-02
+8.261457940e-02   6.310387632e-02   1.042908590e-01   1.483543806e-01
+4.142405648e-02   6.855404394e-02   2.809990212e-02   5.350200909e-02
+1.252677425e-02   1.230234970e-01   6.638476140e-02   2.003755042e-02
+8.512959304e-02   1.563526818e-01   8.243903219e-02   2.626867499e-02
+6.603586724e-02   8.270503171e-02   6.450575236e-02   6.339401415e-02
+5.808351778e-02   3.720120263e-02   7.587130708e-02   3.640407965e-02
+3.954959776e-02   8.288127669e-02   4.856814106e-02   5.390542954e-02
+6.956225572e-02   3.053375223e-02   7.030656538e-02   3.359320308e-02
+7.807003110e-02   4.329604136e-02   6.458260152e-02   3.327966365e-02
+5.730326991e-02   9.872952143e-02   3.863842033e-02   2.532761813e-02
+2.607541612e-02   6.351670540e-02   3.249903201e-02   3.479235159e-02
+7.227966607e-02   7.230844761e-02   5.984202071e-02   4.682536483e-02
+1.009556062e-01   7.476943941e-02   6.454378357e-02   6.016925185e-02
+3.650573362e-02   9.986886159e-02   1.076467844e-01   3.769366743e-02
+5.677591795e-02   1.306268915e-01   7.553435702e-02   9.463998959e-02
+5.632335879e-02   2.787240361e-02   7.228735625e-02   1.165649091e-01
+6.449205701e-02   2.564387798e-02   6.206803201e-02   3.302190625e-02
+1.046762114e-01   2.187922309e-02   3.591797860e-02   7.999408507e-02
+4.162049097e-02   4.673677443e-02   1.690832546e-01   6.582602382e-02
+3.258644834e-02   7.033105032e-02   8.751792866e-02   1.051712947e-01
+1.554973320e-02   5.375771697e-02   8.305425347e-02   6.371133749e-02
+6.010822827e-02   4.728778658e-02   3.752072036e-02   4.996640701e-02
+5.746043106e-02   1.099018470e-01   4.502417975e-02   3.138091159e-02
+2.636979890e-02   5.404689207e-02   4.641634209e-02   5.077576141e-02
+3.605831446e-02   3.124705078e-02   5.376244488e-02   2.374620828e-02
+3.872508522e-02   3.256355723e-02   2.812138537e-02   5.811007568e-02
+7.767864754e-02   8.012256666e-02   6.613449281e-02   1.496926418e-02
+5.339559079e-02   2.050338294e-02   3.517807433e-02   4.284629464e-02
+5.354830855e-02   3.285915032e-02   5.690953080e-02   4.149240908e-02
+2.508968745e-02   6.656916784e-02   8.832819472e-02   2.650468166e-02
+5.749135074e-02   2.698767911e-02   5.024252060e-02   7.795752979e-02
+1.226542879e-01   9.034542206e-02   2.594007247e-02   8.139334922e-02
+6.722226516e-03   3.555711673e-02   3.970927183e-02   5.624203134e-02
+9.585694013e-02   4.492007557e-02   1.350612416e-02   3.183883430e-02
+2.606311699e-02   4.325744750e-02   3.435281419e-02   3.742883798e-02
+6.769500786e-02   6.585097727e-02   5.072024067e-02   6.784946711e-02
+5.347008396e-02   5.245368747e-02   7.381285191e-02   1.018465216e-01
+7.638843801e-02   7.126075693e-02   1.254157971e-01   8.109944407e-02
+5.486710270e-02   3.513642163e-02   5.031242016e-02   7.806100670e-02
+6.059026431e-02   6.576273118e-02   3.451378557e-02   8.814199259e-02
+6.452831348e-02   7.136851198e-02   3.566935157e-02   2.894995200e-02
+4.729412566e-02   6.070069195e-02   1.098626955e-01   5.505608924e-02
+9.752907737e-02   1.105708949e-01   7.315543905e-02   1.125983424e-01
+5.090609588e-02   2.700788172e-02   9.385240848e-02   1.107051672e-01
+1.325244816e-01   4.155686628e-02   2.571382711e-02   4.329731309e-02
+1.306333202e-02   1.762022970e-02
+
+CENTERS:
+-0.0000000000e+00 9.7248964351e-01  -3.7251113547e-01 8.6829381423e-01
+-7.0160804645e-01 5.2923017875e-01  -8.7053625825e-01 -1.1736602408e-01
+-7.7435307811e-01 -5.1775225967e-01  -5.8184379016e-01 -7.6317273683e-01
+1.6232475333e-01 -9.4840709807e-01  5.7608946341e-01 -7.3501521544e-01
+8.2828835145e-01 -4.6155036013e-01  8.6777921509e-01 1.7373979365e-01
+7.1154605530e-01 6.7649772612e-01  4.1445647128e-01 8.1105437727e-01
+-4.4071202939e-02 7.5523885872e-01  5.2232071271e-01 6.9072107935e-01
+2.6955558736e-02 -9.6622231878e-01  1.7051328563e-01 -2.6169354736e-01
+-4.1658896181e-01 2.2207953846e-01  -8.2474474892e-02 6.2721947423e-01
+-1.2109320302e-02 2.8501930568e-01  7.4752408695e-01 4.0802090401e-01
+9.5615706868e-02 1.1712100750e-01  2.8042234577e-01 -3.3102584189e-01
+4.0364176115e-01 -8.0663465976e-01  -5.1417448493e-01 3.1697311748e-01
+4.4025623169e-01 7.1267798029e-01  -2.8457168254e-01 6.4413890828e-02
+6.8854998397e-01 2.0153856995e-01  -6.6730848277e-01 -1.1387091384e-01
+4.8050367330e-01 5.4616350379e-02  -2.4420127012e-01 -8.0751355546e-01
+-5.7987085523e-01 1.9796070790e-01  -8.0106685154e-01 -4.2683234851e-01
+-0.0000000000e+00 -0.0000000000e+00  3.6896993445e-01 -4.5365794419e-01
+-5.9097220334e-01 -5.8844768864e-01  -7.6932371128e-01 -2.7218723623e-01
+5.6480992729e-01 -1.4152837589e-01  -3.6009253525e-01 -7.6896247458e-02
+-1.1989348870e-02 -8.0514614001e-01  5.4306855432e-01 -4.9576112272e-02
+-3.0965574204e-01 4.3404310198e-01  3.7428811530e-01 6.4375118011e-01
+-2.7754826212e-01 9.1004435279e-01  6.1183152117e-01 8.9684164140e-03
+2.2908050877e-01 -7.0545983901e-03  -7.6660395332e-01 2.0436522260e-01
+1.2127778039e-01 -7.4508082012e-01  4.8496815236e-01 -1.8658292200e-01
+-1.6477916592e-01 -3.5269102951e-01  -1.0739393297e-01 3.9772571969e-01
+5.4213409815e-01 4.6420907751e-01  1.3874321205e-01 6.9100838405e-01
+2.9472301852e-01 8.9543568197e-01  -1.9419705049e-01 5.1013781550e-01
+-1.5014436047e-01 9.4956081472e-01  -2.9789637553e-01 -8.3337609739e-02
+-5.0972214188e-01 6.1333097575e-01  -6.4534373781e-02 -9.3425089806e-01
+2.5639612345e-01 -4.2918115151e-01  -1.9610068019e-01 8.9228870161e-01
+-5.8277013810e-02 -1.2543913430e-01  -4.7924888822e-01 8.0393696103e-02
+7.7619435559e-01 -3.6281731343e-01  -4.2771222624e-01 -2.7015976361e-02
+2.9907309817e-01 -1.6254536551e-01  -6.3970752706e-01 3.4333634633e-01
+-1.2077385141e-01 1.5580182915e-01  -7.0792600300e-01 1.3519924038e-01
+5.3948875118e-01 7.9828970867e-01  3.2302121472e-03 4.8860194313e-01
+7.2643992629e-01 -1.0489128405e-01  7.9372127510e-01 -5.4408930304e-01
+-3.4650705746e-01 -4.9212901853e-01  -2.4412475300e-01 7.3399399411e-01
+-3.1804279980e-01 -3.6291680969e-01  1.0849878139e-01 -1.1851052864e-01
+-2.3636581633e-01 -4.6643167624e-01  6.9375770529e-01 6.3400833681e-01
+-7.0835498284e-01 -3.9339882202e-01  -2.3256602816e-01 2.9828996113e-01
+-5.9171239736e-01 -1.5169268539e-01  -4.0419534490e-01 -3.0986236394e-01
+-2.5139965842e-01 -2.4252947990e-01  -8.5360502051e-01 -4.5431168345e-01
+6.8658890546e-03 -2.8996811289e-01  5.4558754726e-02 6.8937692071e-02
+5.3792912078e-01 -2.3160447465e-01  1.4616210585e-01 3.7941790884e-01
+-5.4058452767e-01 5.5307942807e-01  -5.3059099352e-01 -2.4462291172e-01
+-3.1751915662e-02 -5.6099008694e-01  1.1348349977e-02 8.7984831641e-01
+5.9694175256e-02 9.6556701860e-01  6.1198089442e-01 5.7963489135e-01
+4.3244695568e-01 -2.9571325753e-01  -3.9379841221e-01 5.5178921765e-01
+7.3387665478e-01 6.1739653807e-01  2.3113758894e-01 -6.8743735892e-01
+9.1416059260e-01 -7.1307991813e-02  -6.1299227474e-01 5.5612886957e-02
+6.5742628276e-01 -3.4601829250e-01  8.1988122311e-01 1.8694497389e-02
+2.5462101853e-01 4.2465499264e-01  -3.2123440491e-01 -1.5492340868e-01
+3.5587512218e-01 -1.4663078146e-02  1.9990880214e-01 5.6154906389e-01
+1.7950758593e-01 9.6253564497e-02  5.9722772623e-01 7.6258526240e-01
+4.5797637603e-01 -5.1670690955e-01  7.2619197661e-01 -6.0618700097e-01
+-6.6052175121e-01 -5.0203836359e-01  6.4540599880e-01 6.9603773645e-01
+4.1586156364e-01 -8.6961841317e-01  -5.3290036883e-01 -7.1095540684e-01
+-1.3709373215e-01 -2.2379836691e-01  6.0038081728e-01 -6.7834306516e-02
+-8.1523796600e-01 -3.6340232107e-01  -7.4680797016e-01 -6.1498391255e-01
+7.1042904026e-01 5.8055395443e-01  1.0393538116e-01 -8.7232104523e-01
+6.9976047560e-01 -4.7714052273e-01  1.6043883998e-01 2.1993901670e-01
+-6.3979875529e-01 -2.7314637104e-01  5.8544377467e-02 -9.2959448322e-01
+6.0467113504e-01 1.1603025761e-01  -5.4688280365e-01 -6.6112972161e-01
+-7.6232013892e-02 6.6580342626e-02  5.6236562810e-01 -3.0648216059e-01
+4.8506474163e-01 -8.1269506943e-01  9.3116664463e-02 -9.6264466052e-01
+-1.2223547759e-01 -1.3193138839e-02  9.5742391618e-01 4.5483087229e-02
+-1.3649185738e-01 6.7557263195e-02  -2.6610833064e-01 -5.8567074678e-01
+5.3904366392e-01 -4.3556675552e-01  4.2505059706e-01 -1.8193079165e-01
+-3.0945431943e-03 1.2348845042e-01  6.2354715329e-02 1.7690287775e-01
+-3.6366528527e-01 -2.4570583851e-01  5.9493292860e-01 -5.9217879935e-01
+4.0470485197e-01 -6.5588421813e-01  2.4325018974e-01 7.5704968507e-01
+-2.1472063238e-01 9.5009635382e-01  1.5636994044e-01 9.0519160343e-01
+9.1149489825e-01 6.0151980814e-02  -7.1626373880e-01 -8.7524188524e-02
+-5.7402471892e-01 6.2721635502e-01  -1.0965404054e-01 8.6375385655e-01
+3.8169741335e-01 4.6516659930e-01  -7.0009296924e-01 2.3999623615e-01
+-8.3741868673e-01 -4.1068989726e-01  7.7006315899e-01 5.8679893638e-01
+5.0272224658e-01 -5.4403853458e-01  -6.8385228966e-02 9.5429131628e-01
+-8.8196617093e-01 -3.9319705244e-01  -4.4906473994e-01 -2.6553511621e-01
+4.6225826187e-02 6.5055572519e-01  -7.3504010261e-01 1.2130463895e-02
+1.1364846624e-01 2.6758453903e-02  7.1698173183e-01 7.0349912497e-02
+4.8860136816e-01 5.6942639302e-01  -7.0631788339e-01 -1.7497121056e-01
+-2.0400891390e-01 -1.1518062068e-01  -4.2925811757e-01 -6.2745580953e-01
+1.5200065978e-01 -3.9822847316e-01  -5.3080311851e-01 4.4062276904e-01
+-5.1192048400e-01 -4.1576004972e-01  2.9259777462e-01 3.1227835157e-01
+6.2866143489e-01 -2.3469933516e-01  -6.9007036653e-01 -5.7804976148e-01
+7.3001488039e-01 -2.6281002909e-01  -4.4916885261e-01 -1.5004531843e-01
+-5.3426782438e-01 -4.0581443141e-02  4.5073568714e-01 -9.3310525212e-02
+1.5354529385e-01 -6.4535061634e-01  2.2501668506e-01 -5.4566972469e-01
+8.9479877451e-02 7.7550408959e-01  -4.0388941796e-01 3.7553804758e-01
+-5.9593644390e-01 -6.8849971394e-01  2.2847123951e-02 -9.0400926011e-01
+-6.4158318119e-01 -5.1647417647e-02  -8.9058898622e-01 -2.9853546523e-01
+-4.8426966389e-01 7.4686502235e-01  -6.4068010921e-01 6.9457756479e-01
+3.1661698713e-01 1.3527206305e-01  -8.2475549130e-01 3.3293007066e-01
+-4.7345844680e-01 -7.9678394419e-01  -8.7969260238e-01 1.1662837769e-01
+-6.7877786354e-01 -6.6334802770e-01  -6.4135869621e-01 -7.3168830808e-01
+8.7285690990e-01 -2.4332535444e-01  2.7084607994e-01 -8.4703458945e-01
+5.0223166598e-01 2.7118317737e-01  6.7107182385e-01 -6.8430132307e-01
+8.9104422249e-01 3.4975256777e-02  8.7782652736e-01 -3.8038501006e-01
+7.5936068621e-01 6.3040698160e-01  7.3616062737e-01 6.5048777378e-01
+
+
+END
+    </circlepacking>
+    <circlepacking name="start3.p">
+NODECOUNT:  198
+GEOMETRY: hyperbolic
+ALPHA/BETA/GAMMA:  127 0 1
+PACKNAME: start3.p
+FLOWERS:
+
+1 3   72 164 114 191
+2 2   139 120 130
+3 2   195 121 110
+4 6   144 27 160 102 55 145 132
+5 4   108 14 94 11 78
+6 5   186 66 166 89 147 184
+7 5   84 36 162 146 158 118
+8 3   129 32 151 189
+9 2   192 170 129
+10 6   31 68 158 181 173 62 31
+11 6   97 198 78 5 94 119 97
+12 3   183 60 148 188
+13 6   18 157 177 92 148 74 18
+14 8   94 5 108 69 154 25 42 161 94
+15 3   130 124 180 152
+16 2   117 63 195
+17 6   26 80 178 24 31 62 26
+18 5   54 70 157 13 74 54
+19 3   197 97 119 144
+20 8   187 29 125 27 144 51 149 168 187
+21 6   86 159 107 122 138 137 86
+22 6   112 165 59 34 95 65 112
+23 4   100 141 139 113 100
+24 5   17 178 166 66 31 17
+25 3   14 154 42 14
+26 10   131 133 67 80 17 62 64 38 56 163 131
+27 5   20 125 160 4 144 20
+28 4   81 181 146 162 81
+29 7   187 105 174 40 44 125 20 187
+30 6   36 84 189 151 32 79 36
+31 7   17 24 66 150 68 10 62 17
+32 5   30 151 8 129 79 30
+33 7   131 61 76 159 86 137 127 131
+34 7   22 59 176 141 109 135 95 22
+35 7   111 170 192 179 126 164 167 111
+36 6   162 7 84 30 79 123 162
+37 7   40 174 48 87 169 71 116 40
+38 5   26 64 172 104 56 26
+39 6   91 72 152 180 120 47 91
+40 5   29 174 37 116 44 29
+41 4   54 96 178 80 54
+42 7   14 25 154 142 106 149 161 14
+43 3   182 74 60 183
+44 6   29 40 116 71 160 125 29
+45 6   76 65 105 187 107 159 76
+46 4   68 150 186 118 68
+47 6   91 39 120 139 98 175 91
+48 5   37 174 136 95 87 37
+49 6   85 115 83 75 77 91 85
+50 4   196 70 54 80 196
+51 5   20 144 94 161 149 20
+52 4   106 142 177 157 106
+53 2   185 142 154
+54 7   50 70 18 74 96 41 80 50
+55 5   102 99 132 145 4 102
+56 4   26 38 104 163 26
+57 4   96 128 147 89 96
+58 2   191 179 192
+59 4   22 165 176 34 22
+60 5   74 148 12 183 43 74
+61 6   33 131 163 115 85 76 33
+62 6   26 17 31 10 173 64 26
+63 6   101 121 195 16 117 171 101
+64 5   26 62 173 172 38 26
+65 8   76 112 22 95 136 174 105 45 76
+66 6   24 166 6 186 150 31 24
+67 6   26 133 127 137 196 80 26
+68 6   31 150 46 118 158 10 31
+69 2   154 14 108
+70 7   196 88 106 157 18 54 50 196
+71 9   37 169 171 117 99 102 160 44 116 37
+72 5   152 39 91 134 164 1
+73 5   75 167 164 134 77 75
+74 9   54 18 13 148 60 43 182 128 96 54
+75 7   49 83 190 82 167 73 77 49
+76 7   33 61 85 112 65 45 159 33
+77 5   49 75 73 134 91 49
+78 2   5 11 198
+79 7   36 30 32 129 111 167 123 36
+80 8   26 67 196 50 54 41 178 17 26
+81 7   123 90 172 173 181 28 162 123
+82 4   75 190 156 167 75
+83 6   49 115 163 104 190 75 49
+84 3   189 30 36 7
+85 7   61 115 49 91 165 112 76 61
+86 4   33 159 21 137 33
+87 5   37 48 95 155 169 37
+88 6   196 122 168 103 106 70 196
+89 5   57 147 6 166 96 57
+90 5   123 167 156 172 81 123
+91 10   85 49 77 134 72 39 47 175 176 165 85
+92 7   13 177 185 93 143 188 148 13
+93 2   143 92 185
+94 7   51 144 119 11 5 14 161 51
+95 8   22 34 135 155 87 48 136 65 22
+96 8   54 74 128 57 89 166 178 41 54
+97 5   119 19 197 198 11 119
+98 5   47 139 141 176 175 47
+99 4   132 55 102 71 117
+100 3   193 141 23 113
+101 6   155 135 121 63 171 169 155
+102 5   71 99 55 4 160 71
+103 4   88 168 149 106 88
+104 6   38 172 190 83 163 56 38
+105 5   45 65 174 29 187 45
+106 8   70 88 103 149 42 142 52 157 70
+107 5   45 187 122 21 159 45
+108 2   69 14 5
+109 4   34 141 153 135 34
+110 3   3 121 140 194
+111 5   79 129 170 35 167 79
+112 5   76 85 165 22 65 76
+113 2   100 23 139
+114 5   126 179 191 1 164 126
+115 5   61 163 83 49 85 61
+116 4   40 37 71 44 40
+117 4   99 71 171 63 16
+118 4   7 158 68 46 186
+119 5   94 144 19 97 11 94
+120 7   39 180 124 130 2 139 47 39
+121 7   101 135 140 110 3 195 63 101
+122 7   196 138 21 107 187 168 88 196
+123 6   36 79 167 90 81 162 36
+124 4   180 15 130 120 180
+125 5   20 29 44 160 27 20
+126 4   35 179 114 164 35
+127 5   131 33 137 67 133 131
+128 5   184 147 57 96 74 182
+129 5   9 170 111 79 32 8
+130 3   2 120 124 15
+131 6   61 33 127 133 26 163 61
+132 3   4 145 55 99
+133 4   131 127 67 26 131
+134 5   73 164 72 91 77 73
+135 8   34 109 153 140 121 101 155 95 34
+136 4   48 174 65 95 48
+137 7   33 86 21 138 196 67 127 33
+138 4   196 137 21 122 196
+139 6   113 23 141 98 47 120 2
+140 7   121 135 153 141 193 194 110 121
+141 10   34 176 98 139 23 100 193 140 153 109 34
+142 7   42 154 53 185 177 52 106 42
+143 2   188 92 93
+144 6   19 119 94 51 20 27 4
+145 3   55 132 4 55
+146 5   158 7 162 28 181 158
+147 5   57 128 184 6 89 57
+148 6   13 92 188 12 60 74 13
+149 7   20 51 161 42 106 103 168 20
+150 5   31 66 186 46 68 31
+151 4   30 189 8 32 30
+152 3   15 180 39 72
+153 4   109 141 140 135 109
+154 5   53 142 42 25 14 69
+155 5   87 95 135 101 169 87
+156 5   190 172 90 167 82 190
+157 6   18 70 106 52 177 13 18
+158 6   10 68 118 7 146 181 10
+159 6   33 76 45 107 21 86 33
+160 6   27 125 44 71 102 4 27
+161 5   51 94 14 42 149 51
+162 6   146 7 36 123 81 28 146
+163 7   131 26 56 104 83 115 61 131
+164 8   73 167 35 126 114 1 72 134 73
+165 6   112 85 91 176 59 22 112
+166 6   24 178 96 89 6 66 24
+167 10   79 111 35 164 73 75 82 156 90 123 79
+168 6   187 20 149 103 88 122 187
+169 6   37 87 155 101 171 71 37
+170 5   111 129 9 192 35 111
+171 5   71 169 101 63 117 71
+172 8   38 64 173 81 90 156 190 104 38
+173 6   10 181 81 172 64 62 10
+174 7   29 105 65 136 48 37 40 29
+175 4   91 47 98 176 91
+176 7   34 59 165 91 175 98 141 34
+177 6   13 157 52 142 185 92 13
+178 6   17 80 41 96 166 24 17
+179 6   35 192 58 191 114 126 35
+180 5   39 152 15 124 120 39
+181 6   10 158 146 28 81 173 10
+182 2   128 74 43
+183 2   43 60 12
+184 2   6 147 128
+185 4   93 92 177 142 53
+186 4   118 46 150 66 6
+187 7   45 105 29 20 168 122 107 45
+188 3   12 148 92 143
+189 3   8 151 30 84
+190 6   75 83 104 172 156 82 75
+191 3   1 114 179 58
+192 4   58 179 35 170 9
+193 3   194 140 141 100
+194 2   110 140 193
+195 3   16 63 121 3
+196 8   67 137 138 122 88 70 50 80 67
+197 2   198 97 19
+198 3   78 11 97 197
+
+RADII:
+5.000000000e+00   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   2.067032669e-01   5.157088567e-01   5.000000000e+00
+3.384995686e-01   6.435294144e-01   5.000000000e+00   5.000000000e+00
+2.139690217e-01   2.121576761e-01   5.000000000e+00   4.037316150e-01
+8.484064460e-02   1.695305179e-01   3.097471831e-01   1.693134927e-01
+8.415165226e-02   2.710110350e-01   2.780839581e-01   7.405606846e-02
+2.238130754e-01   3.978731552e-01   2.673405507e-01   3.064055067e-01
+1.322642148e-01   2.541075585e-01   4.452625172e-01   3.942641398e-01
+1.766783013e-01   8.614691724e-02   4.533272634e-01   1.038001034e-01
+1.107262717e-01   3.843020751e-01   5.000000000e+00   1.732530939e-01
+1.471442716e-01   1.658925350e-01   3.351964295e-01   9.215502494e-02
+1.847907893e-01   1.044356309e-01   2.672459515e-01   1.327406940e-01
+5.000000000e+00   2.848741718e-01   2.557145583e-01   5.603404882e-02
+1.439879754e-01   5.000000000e+00   8.675174723e-02   4.449459258e-01
+1.476619790e-01   1.903018344e-01   4.773901500e-01   1.149172184e-01
+2.297267638e-01   3.233421794e-01   1.345329925e-01   2.538557315e-01
+5.000000000e+00   2.650205901e-01   4.913542009e-01   5.000000000e+00
+1.790465668e-01   7.314233440e-01   1.980190031e-01   1.949590507e-01
+1.556084105e-01   5.000000000e+00   4.411718185e-01   2.744968255e-01
+2.073244335e-01   6.929984797e-02   1.417120284e-01   5.000000000e+00
+2.298441318e-01   4.410660712e-02   1.095627658e-01   1.925633977e-01
+2.092456053e-01   1.424063575e-01   5.156976110e-01   6.508219179e-01
+5.000000000e+00   5.200162719e-01   2.434245809e-01   4.016878939e-01
+4.075431686e-01   2.293893001e-01   5.000000000e+00   5.000000000e+00
+2.727232192e-01   2.951517714e-01   9.955674988e-02   1.146692532e-01
+1.318817137e-01   3.480780202e-01   9.402378984e-02   5.000000000e+00
+1.009964330e-01   5.000000000e+00   3.049240073e-01   1.363385726e-01
+5.000000000e+00   3.045052715e-01   1.156344289e-01   7.487133331e-02
+5.000000000e+00   5.000000000e+00   3.696008080e-01   5.516404345e-01
+6.014993373e-01   1.736037015e-01   2.598518824e-01   2.296481047e-01
+1.729081154e-01   1.564474401e-01   7.111523262e-02   5.000000000e+00
+5.000000000e+00   5.000000000e+00   1.157006561e-01   5.000000000e+00
+5.138296017e-02   2.293653615e-01   3.483189411e-01   6.746391411e-02
+1.169034563e-01   5.595974729e-02   5.000000000e+00   5.725177225e-01
+6.663569332e-01   5.239336069e-01   5.000000000e+00   5.000000000e+00
+8.136342840e-02   1.490734555e-01   2.931039999e-01   4.960314968e-01
+3.054137206e-01   2.004000040e-01   2.104464710e-01   5.000000000e+00
+1.158462121e-01   5.000000000e+00   1.458624964e-01   1.030155006e-01
+2.381463995e-01   2.919171394e-01   1.029369422e-01   2.870861689e-01
+2.480783146e-01   2.254155325e-01   1.565705687e-01   5.114385170e-01
+1.875445218e-01   2.761373647e-01   4.621870672e-01   1.995842866e-01
+2.012100720e-01   3.862480691e-01   2.567173815e-01   2.024082284e-01
+1.707493277e-01   1.675217980e-01   1.236398112e-01   2.740051289e-01
+3.393892227e-01   2.065241609e-01   4.410548424e-01   3.274735768e-01
+1.622906727e-01   5.000000000e+00   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00   2.225304712e-01   5.000000000e+00
+5.000000000e+00   1.247134220e-01   5.000000000e+00   5.000000000e+00
+5.000000000e+00   5.000000000e+00   5.000000000e+00   2.282883544e-01
+5.000000000e+00   5.000000000e+00
+
+CENTERS:
+0.0000000000e+00 9.9899489771e-01  -5.8810617278e-01 8.0822886827e-01
+-9.6025370029e-01 2.7758017445e-01  -9.2442355010e-01 -3.7734430187e-01
+-5.7078861838e-01 -8.2024219444e-01  9.5632448028e-01 -2.8443420317e-01
+8.0153752588e-01 5.9442038035e-01  5.1800291264e-01 8.5481133237e-01
+3.3168591311e-01 9.4290296242e-01  5.2449816803e-01 2.2150034566e-01
+-6.0248003679e-01 -7.3279058642e-01  3.4939046478e-01 -9.3630802584e-01
+1.7315268264e-01 -7.1658985227e-01  -4.3349055827e-01 -7.7343412346e-01
+-4.8621998680e-01 8.7337701070e-01  -9.9181404785e-01 1.2370177101e-01
+3.9573046302e-01 -3.0397526928e-02  1.7980221609e-01 -5.6503928443e-01
+-6.9773764367e-01 -7.1577072497e-01  -4.9704697863e-01 -3.6251935323e-01
+-1.4691283333e-01 -1.0310683915e-01  -4.5319016830e-01 2.4312066625e-01
+-7.0765836043e-01 5.9040780319e-01  5.3222130469e-01 -9.0108623946e-02
+-3.3962891221e-01 -7.6418950534e-01  2.0469115553e-01 7.7318038473e-02
+-6.7498764414e-01 -3.3195301477e-01  4.9660524226e-01 4.1234833041e-01
+-5.2115930757e-01 -1.5276669842e-01  5.1708421725e-01 7.2777630715e-01
+5.5608344139e-01 6.1569334470e-02  4.6880085759e-01 7.7609247739e-01
+-9.4227547791e-02 3.7297406625e-02  -5.6863139375e-01 3.1999297122e-01
+2.0193806655e-01 8.2246193599e-01  5.2387509260e-01 6.2127267542e-01
+-6.4290242229e-01 -1.0997358056e-03  2.1753137626e-01 2.4244514003e-01
+-3.8347804725e-01 7.4874253490e-01  -5.9917317173e-01 -7.5037779937e-02
+3.5902302700e-01 -2.8855296513e-01  -2.9036912644e-01 -6.9452729858e-01
+4.9645039921e-01 -8.6712958473e-01  -6.4653250220e-01 -1.4320553420e-01
+-3.0844378134e-01 -2.7956512068e-02  7.4775468186e-01 1.3783534683e-01
+-4.6606695798e-01 6.4524936944e-01  -5.8446372184e-01 5.8644795261e-02
+-7.1875269250e-02 4.2022341824e-01  1.3796909327e-01 -3.1659704556e-01
+-4.8725088995e-01 -5.4592831734e-01  -3.7473272546e-02 -6.8384844108e-01
+-1.6972456143e-01 -9.8460855298e-01  2.6676487130e-01 -4.1183266175e-01
+-8.8094561304e-01 -2.2506584921e-01  1.5563313840e-01 2.2351969450e-01
+6.3828175949e-01 -4.1216151639e-01  1.7567774359e-01 9.8407540124e-01
+-4.6283541808e-01 3.3312884589e-01  3.7499392953e-01 -8.2679677214e-01
+-8.3215731587e-02 1.7393063951e-01  4.0094337540e-01 1.3867694689e-01
+-8.8140993961e-01 1.3119567527e-01  3.0344690074e-01 2.2244118662e-01
+-4.1939063090e-01 9.1169805059e-02  6.8285780926e-01 -6.7162669130e-02
+7.3595411980e-02 -7.1291197110e-02  6.5862162102e-01 1.8362098522e-01
+-4.4037251385e-01 -8.9724396816e-01  5.3021841915e-02 -4.4706145807e-01
+-7.8574711478e-01 -7.3335304876e-02  -2.2182891814e-01 9.7277012782e-01
+3.0692778167e-02 6.1785096456e-01  4.0505445738e-01 -6.6606446422e-01
+6.1222948422e-02 4.9210844516e-01  -2.3381545700e-01 1.1115316323e-01
+-5.4736338548e-02 5.4818891447e-01  -6.1997269256e-01 -7.8431733517e-01
+4.0635747722e-01 7.0651120254e-01  2.3763594217e-01 -1.7787634138e-01
+4.0913902900e-01 4.1613673457e-01  1.6074533933e-01 4.7789435453e-01
+4.9873866028e-02 3.5416062805e-01  6.6062685637e-01 7.4944991456e-01
+-2.0148707506e-01 3.0108566531e-01  -1.2305493718e-01 -4.4881419382e-02
+-6.4194261917e-01 8.2743054374e-02  -1.2143525190e-01 -3.7287587456e-01
+6.5234111814e-01 -3.3495168111e-01  3.0709757031e-01 4.7482437982e-01
+-2.7550025829e-01 5.6698722667e-01  1.4310896040e-01 -8.7483008109e-01
+1.0824768857e-01 -9.9361434803e-01  -5.3812241570e-01 -6.7516641337e-01
+-5.7442963996e-01 1.6749562578e-01  5.0108397139e-01 -3.9431501951e-01
+-6.4071201297e-01 -7.2011848860e-01  -5.3152295387e-01 5.5603922524e-01
+-9.8755276984e-01 -1.5060359119e-01  -8.0489135219e-01 5.9236482212e-01
+-7.7569222893e-01 1.4714267083e-01  -8.2613243922e-01 -1.9769745185e-01
+-2.1614662856e-01 -4.4220521265e-01  1.4951825726e-01 3.0072666851e-01
+-4.2509257434e-01 -5.7047549340e-02  -1.3076163415e-01 -5.7580549609e-01
+-2.3190360881e-01 -1.0848823608e-01  -5.0200613310e-01 -8.6436420133e-01
+-6.5684993032e-01 3.4190590841e-01  -9.3577757483e-01 3.5080550807e-01
+3.0451414193e-01 7.7472091536e-01  -3.3512048271e-01 2.1812081397e-01
+-7.5780020747e-01 6.5184747258e-01  9.0407227899e-02 8.9169805986e-01
+-4.7185398429e-02 2.9231103951e-01  -6.5289852417e-01 -7.3230117839e-02
+-9.9878324626e-01 1.0906966052e-02  9.4365496156e-01 3.2480852182e-01
+-6.2523582482e-01 -6.8320567423e-01  -5.0220672682e-01 7.5594467485e-01
+-8.5514366317e-01 2.4547964754e-01  -1.7896477276e-01 -2.2104235907e-01
+3.9852033908e-01 5.5543665978e-01  -4.8311002429e-01 8.0896223227e-01
+-6.1563505404e-01 -2.3619819962e-01  1.2592158250e-01 8.5352059360e-01
+0.0000000000e+00 0.0000000000e+00  7.5287915629e-01 -6.5509007192e-01
+4.2559679226e-01 9.0378139406e-01  -5.3674780101e-01 8.4327884270e-01
+1.6217111224e-02 9.1714493037e-02  -9.6646650144e-01 -2.5484195944e-01
+5.7882377902e-02 1.9791912061e-02  -7.9281595542e-02 6.6559861283e-01
+-7.0693698827e-01 2.5483047287e-01  -5.3132850463e-01 7.1132047292e-02
+-5.1022899390e-02 -7.8629571592e-02  -9.7157107990e-02 -1.4975156024e-01
+-6.7838368738e-01 7.3279884090e-01  -8.0227185102e-01 3.6791059938e-01
+-6.7860155753e-01 4.8582693993e-01  -1.3408877211e-01 -7.9204770010e-01
+1.7681086918e-01 -9.8380782709e-01  -7.8985776760e-01 -6.0978086108e-01
+-8.9122260159e-01 -2.4969884715e-01  5.5814365760e-01 4.1076052756e-01
+7.1886281839e-01 -4.0605729999e-01  2.7281761885e-01 -8.2199290386e-01
+-3.3401731884e-01 -5.1740912207e-01  6.9568001960e-01 6.9996154248e-02
+5.0923095828e-01 7.7828794901e-01  -4.1100774247e-01 9.1075608525e-01
+-7.0132963504e-01 3.5056159629e-01  -3.2576476593e-01 -9.4401441452e-01
+-6.8329626551e-01 1.3918147999e-01  2.2149460761e-01 4.5723692905e-01
+5.0023740634e-02 -6.2406276981e-01  6.2976058041e-01 3.2308773921e-01
+-1.9154783385e-01 -2.4081202463e-02  -7.2787993952e-01 -2.2151456993e-01
+-4.1500613133e-01 -6.3606155755e-01  5.0813731768e-01 4.9262308091e-01
+5.5935779995e-02 2.1809186739e-01  4.3326030494e-02 7.8748456341e-01
+-3.6561076740e-01 3.4343415747e-01  6.0268905398e-01 -2.1702375711e-01
+2.1845801034e-01 6.3911042475e-01  -2.8158209825e-01 -3.4521479406e-01
+-7.2125620943e-01 6.1740344836e-02  2.9228289968e-01 8.5679799937e-01
+-8.1343160890e-01 5.9852754133e-02  2.7390186414e-01 3.5126476026e-01
+4.0268843502e-01 2.8180676115e-01  -5.3133199309e-01 -1.3076838787e-02
+-4.5214627861e-01 5.4760013698e-01  -4.7957435926e-01 4.4458784717e-01
+3.3604091478e-02 -7.6890868926e-01  4.4017603432e-01 -1.9489371323e-01
+1.5537539009e-01 9.0614913985e-01  -4.4640606837e-01 8.0516605040e-01
+5.0237896427e-01 3.4068552623e-01  6.0447076803e-01 -7.9544622797e-01
+4.1969483710e-01 -9.0720308149e-01  8.7240460627e-01 -4.8681646536e-01
+-1.2273018414e-02 -9.9861936068e-01  9.9750211828e-01 3.0781496445e-02
+-3.5063420574e-01 -1.8465666213e-01  2.5599185248e-01 -9.6595910176e-01
+5.7982899195e-01 8.1410875168e-01  1.5149721438e-01 4.0272027205e-01
+1.0988187354e-01 9.9339404882e-01  2.5003103648e-01 9.6749493928e-01
+-8.6186037980e-01 5.0560484412e-01  -9.0434716063e-01 4.2567899735e-01
+-9.7832527791e-01 2.0414385556e-01  8.9799650651e-03 -2.3536868375e-01
+-6.6912551146e-01 -7.4292154954e-01  -6.4700149532e-01 -7.6218599783e-01
+
+
+END
+    </circlepacking>
+  </CPdata>
+</CP_Scriptfile>
